@@ -17,6 +17,40 @@ let dTreeSeeder = {
         member.parent2Id = null;
         return member;
     },
+    _get: function (ids: number[], parentOptions: { preserveParentIds: boolean }): Member[] {
+        const members = new Array<Member>();
+        ids.forEach(id => {
+            const member = (parentOptions.preserveParentIds)
+                ? this._getWithParentIds(id)
+                : this._getWithoutParentIds(id);
+            members.push(member);
+        });
+        return members;
+    },
+    _getChildren: function (...parents: Member[]): Member[] {
+        const childIds = this._data.filter((member) =>
+            parents.some((parent) => parent.id === member.parent1Id || parent.id === member.parent2Id))
+            .map((member) => member.id);
+
+        if (childIds.length === 0) {
+            return [];
+        }
+        return this._get(childIds, { preserveParentIds: true });
+    },
+    _getOtherParents: function (children: Member[], ...parents: Member[]): Member[] {
+        const parentIds = parents.map((parent) => parent.id);
+        const otherParentIds = children.map((child) =>
+            parentIds.includes(child.parent1Id as number)
+                ? child.parent2Id
+                : child.parent1Id);
+
+        // remove duplicates when siblings have common parent
+        const uniqueOtherParentIds = otherParentIds.filter((value, index) =>
+            index === otherParentIds.indexOf(value));
+
+        // remove parentIds so their ancestors aren't included
+        return this._get(uniqueOtherParentIds as number[], { preserveParentIds: false });
+    },
     seed: function (data: Member[], targetId?: number): Member[] {
         this._data = data;
 
@@ -24,7 +58,7 @@ let dTreeSeeder = {
             return [];
         }
 
-        let members = new Array<Member>();
+        const members = new Array<Member>();
 
         const target = this._getWithParentIds(targetId);
         members.push(target);
@@ -48,10 +82,8 @@ let dTreeSeeder = {
                     || (member.parent1Id === target.parent2Id || member.parent2Id === target.parent1Id))
                 && member.id !== target.id)
                 .map((member) => member.id);
-            siblingIds.forEach(id => {
-                const sibling = this._getWithParentIds(id);
-                members.push(sibling);
-            });
+            const siblings = this._get(siblingIds, { preserveParentIds: true });
+            members.push(...siblings);
         }
 
         const children = this._getChildren(target);
@@ -76,45 +108,9 @@ let dTreeSeeder = {
         } while (nextGeneration.length > 0);
 
         return members;
-    },
-    _getChildren: function (...parents: Member[]): Member[] {
-        const childIds = this._data.filter((member) =>
-            parents.some((parent) => parent.id === member.parent1Id || parent.id === member.parent2Id))
-            .map((member) => member.id);
-
-        if (childIds.length === 0) {
-            return [];
-        }
-
-        const children = new Array<Member>();
-        childIds.forEach(id => {
-            const child = this._getWithParentIds(id);
-            children.push(child);
-        });
-
-        return children;
-    },
-    _getOtherParents: function (children: Member[], ...parents: Member[]): Member[] {
-        const parentIds = parents.map((parent) => parent.id);
-        const otherParentIds = children.map((child) =>
-            parentIds.includes(child.parent1Id as number)
-                ? child.parent2Id
-                : child.parent1Id);
-        const uniqueOtherParentIds = otherParentIds.filter((value, index) =>
-            index === otherParentIds.indexOf(value));
-
-        const otherParents = new Array<Member>();
-        uniqueOtherParentIds.forEach(id => {
-            // remove parentIds so their ancestors aren't included
-            const otherParent = this._getWithoutParentIds(id);
-            otherParents.push(otherParent);
-        });
-
-        return otherParents;
     }
 };
 
-//2. gather related members
 //3. generate tree hierarchy
 //4. return tree hierarchy
 //5. add options object to specify which relatives to include
