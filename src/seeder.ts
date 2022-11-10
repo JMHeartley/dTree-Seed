@@ -61,23 +61,16 @@ let dTreeSeeder = {
             return members;
         }
 
-        const otherParentIds = children.map((member) =>
-            member.parent1Id === target.id
-                ? member.parent2Id
-                : member.parent1Id);
-        const uniqueOtherParentIds = otherParentIds.filter((value, index) =>
-            index === otherParentIds.indexOf(value));
-        uniqueOtherParentIds.forEach(id => {
-            // remove parentIds so their ancestors aren't included
-            const otherParent = this._getWithoutParentIds(id);
-            members.push(otherParent);
-        });
+        const otherParents = this._getOtherParents(children, target);
+        members.push(...otherParents);
 
-        //  start loop to check for the next generation
         let nextGeneration = children;
         do {
             const nextGenerationChildren = this._getChildren(...nextGeneration);
             members.push(...nextGenerationChildren);
+
+            const nextGenerationOtherParents = this._getOtherParents(nextGenerationChildren, ...nextGeneration);
+            members.push(...nextGenerationOtherParents);
 
             nextGeneration = nextGenerationChildren;
         } while (nextGeneration.length > 0);
@@ -100,6 +93,24 @@ let dTreeSeeder = {
         });
 
         return children;
+    },
+    _getOtherParents: function (children: Member[], ...parents: Member[]): Member[] {
+        const parentIds = parents.map((parent) => parent.id);
+        const otherParentIds = children.map((child) =>
+            parentIds.includes(child.parent1Id as number)
+                ? child.parent2Id
+                : child.parent1Id);
+        const uniqueOtherParentIds = otherParentIds.filter((value, index) =>
+            index === otherParentIds.indexOf(value));
+
+        const otherParents = new Array<Member>();
+        uniqueOtherParentIds.forEach(id => {
+            // remove parentIds so their ancestors aren't included
+            const otherParent = this._getWithoutParentIds(id);
+            otherParents.push(otherParent);
+        });
+
+        return otherParents;
     }
 };
 

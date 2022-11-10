@@ -224,7 +224,7 @@ describe('seed', () => {
                 })
             })
             describe('has grandchildren', () => {
-                it('should return list including children with their parent ids', () => {
+                it('should return list including grandchildren with their parent ids', () => {
                     // Arrange
                     const targetId = mockMembers.LyarraStark.id;
 
@@ -238,6 +238,21 @@ describe('seed', () => {
                     const grandchild = result.find((member) => member.id === grandchildId);
                     assert.isNotNull(grandchild?.parent1Id);
                     assert.isNotNull(grandchild?.parent2Id);
+                })
+                it('should return list including grandchildren\'s other parents without their parent ids', () => {
+                    // Arrange
+                    const targetId = mockMembers.LyarraStark.id;
+
+                    // Act
+                    const result = seeder.seed(testData, targetId);
+
+                    // Assert
+                    const resultIds = result.map((member) => member.id);
+                    const grandchildOtherParentId = mockMembers.CatelynStark.id;
+                    assert.include(resultIds, grandchildOtherParentId);
+                    const grandchildOtherParent = result.find((member) => member.id === grandchildOtherParentId);
+                    assert.isNull(grandchildOtherParent?.parent1Id);
+                    assert.isNull(grandchildOtherParent?.parent2Id);
                 })
             })
         })
