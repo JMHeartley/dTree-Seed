@@ -54,20 +54,12 @@ let dTreeSeeder = {
             });
         }
 
-        const childIds = this._data.filter((member) =>
-            member.parent1Id === target.id || member.parent2Id === target.id)
-            .map((member) => member.id);
+        const children = this._getChildren(target);
+        members.push(...children);
 
-        if (childIds.length === 0) {
+        if (children.length === 0) {
             return members;
         }
-
-        let children = new Array<Member>();
-        childIds.forEach(id => {
-            const child = this._getWithParentIds(id);
-            children.push(child);
-            members.push(child);
-        });
 
         const otherParentIds = children.map((member) =>
             member.parent1Id === target.id
@@ -82,8 +74,32 @@ let dTreeSeeder = {
         });
 
         //  start loop to check for the next generation
+        let nextGeneration = children;
+        do {
+            const nextGenerationChildren = this._getChildren(...nextGeneration);
+            members.push(...nextGenerationChildren);
+
+            nextGeneration = nextGenerationChildren;
+        } while (nextGeneration.length > 0);
 
         return members;
+    },
+    _getChildren: function (...parents: Member[]): Member[] {
+        const childIds = this._data.filter((member) =>
+            parents.some((parent) => parent.id === member.parent1Id || parent.id === member.parent2Id))
+            .map((member) => member.id);
+
+        if (childIds.length === 0) {
+            return [];
+        }
+
+        const children = new Array<Member>();
+        childIds.forEach(id => {
+            const child = this._getWithParentIds(id);
+            children.push(child);
+        });
+
+        return children;
     }
 };
 

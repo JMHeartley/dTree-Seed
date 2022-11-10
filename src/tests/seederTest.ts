@@ -223,6 +223,23 @@ describe('seed', () => {
                     assert.throw(() => seeder.seed(testData, targetId));
                 })
             })
+            describe('has grandchildren', () => {
+                it('should return list including children with their parent ids', () => {
+                    // Arrange
+                    const targetId = mockMembers.LyarraStark.id;
+
+                    // Act
+                    const result = seeder.seed(testData, targetId);
+
+                    // Assert
+                    const resultIds = result.map((member) => member.id);
+                    const grandchildId = mockMembers.AryaStark.id;
+                    assert.include(resultIds, grandchildId);
+                    const grandchild = result.find((member) => member.id === grandchildId);
+                    assert.isNotNull(grandchild?.parent1Id);
+                    assert.isNotNull(grandchild?.parent2Id);
+                })
+            })
         })
     })
 });
