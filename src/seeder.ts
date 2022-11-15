@@ -51,9 +51,7 @@ let dTreeSeeder = {
         // remove parentIds so their ancestors aren't included
         return this._get(uniqueOtherParentIds as number[], { preserveParentIds: false });
     },
-    seed: function (data: Member[], targetId?: number): Member[] {
-        this._data = data;
-
+    _getRelatives: function (targetId?: number): Member[] {
         if (targetId === undefined) {
             return [];
         }
@@ -108,11 +106,14 @@ let dTreeSeeder = {
         } while (nextGeneration.length > 0);
 
         return members;
+    seed: function (data: Member[], targetId?: number): Member[] {
+        this._data = data;
+        return this._getRelatives(targetId);
     }
 };
 
 //3. generate tree hierarchy
-//4. return tree hierarchy
+//4. return in json format
 //5. add options object to specify which relatives to include
 
 export default dTreeSeeder;
