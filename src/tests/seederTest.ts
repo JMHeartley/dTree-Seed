@@ -37,7 +37,7 @@ describe('_getRelatives', () => {
                     index !== resultIds.indexOf(value));
                 assert.isEmpty(duplicateIds);
             })
-            it('should return list including target with their parent ids', () => {
+            it('should return array including target with their parent ids', () => {
                 // Arrange
                 const targetId = mockMembers.EdardStark.id;
 
@@ -51,7 +51,7 @@ describe('_getRelatives', () => {
                 assert.isNotNull(target?.parent2Id);
             })
             describe('has parents', () => {
-                it('only has parent1, should return list including parent1 without their parent ids', () => {
+                it('only has parent1, should return array including parent1 without their parent ids', () => {
                     // Arrange
                     const targetId = mockMembers.OnlyHasParent1.id;
 
@@ -68,7 +68,7 @@ describe('_getRelatives', () => {
                     assert.isNull(parent1?.parent1Id);
                     assert.isNull(parent1?.parent2Id);
                 })
-                it('only has parent2, should return list including parent2 without their parent ids', () => {
+                it('only has parent2, should return array including parent2 without their parent ids', () => {
                     // Arrange
                     // Arrange
                     const targetId = mockMembers.OnlyHasParent2.id;
@@ -86,7 +86,7 @@ describe('_getRelatives', () => {
                     assert.isNull(parent2?.parent1Id);
                     assert.isNull(parent2?.parent2Id);
                 })
-                it('has 2 parents, should return list including both parents without their parent ids', () => {
+                it('has 2 parents, should return array including both parents without their parent ids', () => {
                     // Arrange
                     const targetId = mockMembers.LyannaStark.id;
 
@@ -121,7 +121,7 @@ describe('_getRelatives', () => {
                 })
             })
             describe('has siblings', () => {
-                it('with same parent order, should return list including siblings with their parent ids', () => {
+                it('with same parent order, should return array including siblings with their parent ids', () => {
                     // Arrange
                     const targetId = mockMembers.Child.id;
 
@@ -136,7 +136,7 @@ describe('_getRelatives', () => {
                     assert.isNotNull(sibling?.parent1Id);
                     assert.isNotNull(sibling?.parent2Id);
                 })
-                it('with reverse parent order, should return list including siblings with their parent ids', () => {
+                it('with reverse parent order, should return array including siblings with their parent ids', () => {
                     // Arrange
                     const targetId = mockMembers.Child.id;
 
@@ -150,7 +150,7 @@ describe('_getRelatives', () => {
                     assert.isNotNull(sibling?.parent1Id);
                     assert.isNotNull(sibling?.parent2Id);
                 })
-                it('with both parent orders, should return list including siblings with their parent ids', () => {
+                it('with both parent orders, should return array including siblings with their parent ids', () => {
                     // Arrange
                     const targetId = mockMembers.Child.id;
 
@@ -173,7 +173,7 @@ describe('_getRelatives', () => {
                 })
             })
             describe('has children', () => {
-                it('should return list including children with their parent ids', () => {
+                it('should return array including children with their parent ids', () => {
                     // Arrange
                     const targetId = mockMembers.LyarraStark.id;
 
@@ -193,7 +193,7 @@ describe('_getRelatives', () => {
                     assert.isNotNull(child2?.parent1Id);
                     assert.isNotNull(child2?.parent2Id);
                 })
-                it('should return list including children\'s other parent without their parent ids', () => {
+                it('should return array including children\'s other parent without their parent ids', () => {
                     // Arrange
                     const targetId = mockMembers.EdardStark.id;
 
@@ -224,7 +224,7 @@ describe('_getRelatives', () => {
                 })
             })
             describe('has grandchildren', () => {
-                it('should return list including grandchildren with their parent ids', () => {
+                it('should return array including grandchildren with their parent ids', () => {
                     // Arrange
                     const targetId = mockMembers.LyarraStark.id;
 
@@ -239,7 +239,7 @@ describe('_getRelatives', () => {
                     assert.isNotNull(grandchild?.parent1Id);
                     assert.isNotNull(grandchild?.parent2Id);
                 })
-                it('should return list including grandchildren\'s other parents without their parent ids', () => {
+                it('should return array including grandchildren\'s other parents without their parent ids', () => {
                     // Arrange
                     const targetId = mockMembers.LyarraStark.id;
 
@@ -258,8 +258,6 @@ describe('_getRelatives', () => {
         })
     })
 
-        // Arrange
 
         // Assert
-    })
 });
