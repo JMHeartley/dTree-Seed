@@ -51,7 +51,9 @@ let dTreeSeeder = {
         // remove parentIds so their ancestors aren't included
         return this._get(uniqueOtherParentIds as number[], { preserveParentIds: false });
     },
-    _getRelatives: function (targetId?: number): Member[] {
+    _getRelatives: function (data: Member[], targetId?: number): Member[] {
+        this._data = data;
+
         if (targetId === undefined) {
             return [];
         }
@@ -107,8 +109,7 @@ let dTreeSeeder = {
 
         return members;
     seed: function (data: Member[], targetId?: number): Member[] {
-        this._data = data;
-        return this._getRelatives(targetId);
+        return this._getRelatives(data, targetId);
     }
 };
 

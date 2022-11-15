@@ -7,12 +7,9 @@ import mockMembers from './data/mockMembers';
 const testData = mockMembers.getMockMembers();
 
 describe('_getRelatives', () => {
-    //Initialize the seeder with the test data
-    seeder.seed(testData);
-
     it('gets no targetId, should return an empty array', () => {
         // Act
-        const result = seeder._getRelatives()
+        const result = seeder._getRelatives(testData);
 
         // Assert
         assert.isArray(result);
@@ -24,7 +21,7 @@ describe('_getRelatives', () => {
             const targetId = 999;
 
             // Assert
-            assert.throw(() => seeder._getRelatives(targetId));
+            assert.throw(() => seeder._getRelatives(testData, targetId));
         })
         describe('target is in data', () => {
             it('should return array with no duplicates', () => {
@@ -32,7 +29,7 @@ describe('_getRelatives', () => {
                 const targetId = mockMembers.LyarraStark.id;
 
                 // Act
-                const result = seeder._getRelatives(targetId);
+                const result = seeder._getRelatives(testData, targetId);
 
                 // Assert
                 const resultIds = result.map((member) => member.id);
@@ -45,7 +42,7 @@ describe('_getRelatives', () => {
                 const targetId = mockMembers.EdardStark.id;
 
                 // Act
-                const result = seeder._getRelatives(targetId);
+                const result = seeder._getRelatives(testData, targetId);
 
                 // Assert
                 const target = result.find((member) => member.id === targetId);
@@ -59,7 +56,7 @@ describe('_getRelatives', () => {
                     const targetId = mockMembers.OnlyHasParent1.id;
 
                     // Act
-                    const result = seeder._getRelatives(targetId);
+                    const result = seeder._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -77,7 +74,7 @@ describe('_getRelatives', () => {
                     const targetId = mockMembers.OnlyHasParent2.id;
 
                     // Act
-                    const result = seeder._getRelatives(targetId);
+                    const result = seeder._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -94,7 +91,7 @@ describe('_getRelatives', () => {
                     const targetId = mockMembers.LyannaStark.id;
 
                     // Act
-                    const result = seeder._getRelatives(targetId);
+                    const result = seeder._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -113,14 +110,14 @@ describe('_getRelatives', () => {
                     const targetId = mockMembers.Parent1IsNotInData.id;
 
                     // Assert
-                    assert.throw(() => seeder._getRelatives(targetId));
+                    assert.throw(() => seeder._getRelatives(testData, targetId));
                 })
                 it('parent2 is not in data, should throw error', () => {
                     // Arrange
                     const targetId = mockMembers.Parent2IsNotInData.id;
 
                     // Assert
-                    assert.throw(() => seeder._getRelatives(targetId));
+                    assert.throw(() => seeder._getRelatives(testData, targetId));
                 })
             })
             describe('has siblings', () => {
@@ -129,7 +126,7 @@ describe('_getRelatives', () => {
                     const targetId = mockMembers.Child.id;
 
                     // Act
-                    const result = seeder._getRelatives(targetId);
+                    const result = seeder._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -144,7 +141,7 @@ describe('_getRelatives', () => {
                     const targetId = mockMembers.Child.id;
 
                     // Act
-                    const result = seeder._getRelatives(targetId);
+                    const result = seeder._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -158,7 +155,7 @@ describe('_getRelatives', () => {
                     const targetId = mockMembers.Child.id;
 
                     // Act
-                    const result = seeder._getRelatives(targetId);
+                    const result = seeder._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -181,7 +178,7 @@ describe('_getRelatives', () => {
                     const targetId = mockMembers.LyarraStark.id;
 
                     // Act
-                    const result = seeder._getRelatives(targetId);
+                    const result = seeder._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -201,7 +198,7 @@ describe('_getRelatives', () => {
                     const targetId = mockMembers.EdardStark.id;
 
                     // Act
-                    const result = seeder._getRelatives(targetId);
+                    const result = seeder._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -216,14 +213,14 @@ describe('_getRelatives', () => {
                     const targetId = mockMembers.Parent1IsNotInData.id;
 
                     // Assert
-                    assert.throw(() => seeder._getRelatives(targetId));
+                    assert.throw(() => seeder._getRelatives(testData, targetId));
                 })
                 it('other parent (parent2) is not in data, should throw error', () => {
                     // Arrange
                     const targetId = mockMembers.Parent2IsNotInData.id;
 
                     // Assert
-                    assert.throw(() => seeder._getRelatives(targetId));
+                    assert.throw(() => seeder._getRelatives(testData, targetId));
                 })
             })
             describe('has grandchildren', () => {
@@ -232,7 +229,7 @@ describe('_getRelatives', () => {
                     const targetId = mockMembers.LyarraStark.id;
 
                     // Act
-                    const result = seeder._getRelatives(targetId);
+                    const result = seeder._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -247,7 +244,7 @@ describe('_getRelatives', () => {
                     const targetId = mockMembers.LyarraStark.id;
 
                     // Act
-                    const result = seeder._getRelatives(targetId);
+                    const result = seeder._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -259,5 +256,10 @@ describe('_getRelatives', () => {
                 })
             })
         })
+    })
+
+        // Arrange
+
+        // Assert
     })
 });
