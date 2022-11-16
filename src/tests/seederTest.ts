@@ -3,6 +3,8 @@ import chai from 'chai';
 const assert = chai.assert;
 
 import seeder from '../seeder';
+import TreeNode from '../treeNode';
+import TreeNodeMarriage from '../treeNodeMarriage';
 import mockMembers from './data/mockMembers';
 const testData = mockMembers.getMockMembers();
 
@@ -462,5 +464,34 @@ describe('_combineIntoMarriages', () => {
         assert.equal(result[0].marriages[0].children[0].id, child1.id);
         assert.equal(result[0].marriages[0].children[1].id, child2.id);
         assert.equal(result[0].marriages[0].children.length, 2);
+    })
+});
+
+describe('_coalesce', () => {
+    it('gets empty array, should throw error', () => {
+        // Assert
+        assert.throws(() => seeder._coalesce([]));
+    })
+    it('gets 1 generation, should return valid tree', () => {
+        // Arrange
+        const node = new TreeNode(mockMembers.EdardStark);
+        const marriage = new TreeNodeMarriage();
+        marriage.spouse = new TreeNode(mockMembers.CatelynStark);
+        marriage.children = [
+            new TreeNode(mockMembers.AryaStark),
+            new TreeNode(mockMembers.BranStark),
+            new TreeNode(mockMembers.RickonStark),
+            new TreeNode(mockMembers.SansaStark)
+        ];
+        node.marriages.push(marriage);
+
+        // Assert
+        const result = seeder._coalesce([node]);
+
+        // Assert
+        assert.equal(result.length, 1);
+        assert.equal(result[0].id, mockMembers.EdardStark.id);
+        assert.equal(result[0].marriages[0].spouse?.id, mockMembers.CatelynStark.id);
+        assert.deepEqual(result[0].marriages[0].children.map(child => child.id), marriage.children.map(child => child.id));
     })
 });

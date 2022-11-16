@@ -167,10 +167,18 @@ let dTreeSeeder = {
 
         return treeNodes;
     },
+    _coalesce: function (data: TreeNode[]): TreeNode[] {
+        if (data.length === 0) {
+            throw new Error("Data cannot be empty");
+        }
+
+        return data;
+    },
     seed: function (data: Member[], targetId?: number): TreeNode[] {
         const members = this._getRelatives(data, targetId);
         const marriages = this._combineIntoMarriages(members);
-        return marriages;
+        const rootNode = this._coalesce(marriages);
+        return rootNode;
     }
 };
 
