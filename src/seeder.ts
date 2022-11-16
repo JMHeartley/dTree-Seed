@@ -76,12 +76,10 @@ let dTreeSeeder = {
         }
 
         if (hasParent1 || hasParent2) {
-            const siblingIds = data.filter((member) =>
+            const siblings = data.filter((member) =>
                 ((member.parent1Id === target.parent1Id || member.parent2Id === target.parent2Id)
                     || (member.parent1Id === target.parent2Id || member.parent2Id === target.parent1Id))
-                && member.id !== target.id)
-                .map((member) => member.id);
-            const siblings = this._get(data, siblingIds, { preserveParentIds: true });
+                && member.id !== target.id);
             members.push(...siblings);
         }
 
