@@ -53,6 +53,10 @@ let dTreeSeeder = {
         return this._get(data, uniqueOtherParentIds as number[], { preserveParentIds: false });
     },
     _getRelatives: function (data: Member[], targetId?: number): Member[] {
+        if (data.length === 0) {
+            throw new Error("Data cannot be empty");
+        }
+
         if (targetId === undefined) {
             return [];
         }

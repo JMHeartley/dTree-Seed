@@ -7,6 +7,10 @@ import mockMembers from './data/mockMembers';
 const testData = mockMembers.getMockMembers();
 
 describe('_getRelatives', () => {
+    it('gets empty array, should throw error', () => {
+        // Assert
+        assert.throws(() => seeder._getRelatives([]));
+    })
     it('gets no targetId, should return an empty array', () => {
         // Act
         const result = seeder._getRelatives(testData);
