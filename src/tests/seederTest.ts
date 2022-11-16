@@ -15,7 +15,7 @@ describe('_getRelatives', () => {
         assert.isArray(result);
         assert.isEmpty(result);
     })
-    describe('gets valid targetId', () => {
+    describe('gets targetId', () => {
         it('target is not in data, should throw error', () => {
             // Arrange
             const targetId = 999;
@@ -257,7 +257,202 @@ describe('_getRelatives', () => {
             })
         })
     })
+});
 
+describe('_combineIntoMarriages', () => {
+    it('gets 1 member, returns array of 1 treeNode', () => {
+        // Arrange
+        const members = [mockMembers.AryaStark];
+
+        // Act
+        const result = seeder._combineIntoMarriages(members);
 
         // Assert
+        assert.isArray(result);
+        assert.lengthOf(result, 1);
+        assert.equal(result[0].id, members[0].id);
+    })
+    it('gets only members with no parents, should throw error', () => {
+        // Arrange
+        const members = [
+            {
+                id: 1,
+                name: 'No Parents 1',
+                parent1Id: null,
+                parent2Id: null
+            },
+            {
+                id: 2,
+                name: 'No Parents 2',
+                parent1Id: null,
+                parent2Id: null
+            }
+        ];
+        // Assert
+        assert.throw(() => seeder._combineIntoMarriages(members));
+    })
+    it('gets 1 child with 1 parent as parent1, returns array of 1 tree node with 1 marrige to no spouse and 1 child', () => {
+        // Arrange
+        const parent = {
+            id: 1,
+            name: 'Parent',
+            parent1Id: null,
+            parent2Id: null
+        };
+        const child = {
+            id: 2,
+            name: 'Child',
+            parent1Id: 1,
+            parent2Id: null
+        };
+        const members = [parent, child];
+
+        // Act
+        const result = seeder._combineIntoMarriages(members);
+
+        // Assert
+        assert.isNull(result[0].marriages[0].spouse);
+        assert.equal(result[0].marriages[0].children[0].id, child.id);
+        assert.equal(result[0].marriages[0].children.length, 1);
+    })
+    it('gets 1 child with 1 parent as parent2, returns array of 1 tree node with 1 marrige to no spouse and 1 child', () => {
+        // Arrange
+        const parent = {
+            id: 1,
+            name: 'Parent',
+            parent1Id: null,
+            parent2Id: null
+        };
+        const child = {
+            id: 2,
+            name: 'Child',
+            parent1Id: null,
+            parent2Id: 1
+        };
+        const members = [parent, child];
+
+        // Act
+        const result = seeder._combineIntoMarriages(members);
+
+        // Assert
+        assert.isNull(result[0].marriages[0].spouse);
+        assert.equal(result[0].marriages[0].children[0].id, child.id);
+        assert.equal(result[0].marriages[0].children.length, 1);
+    })
+    it('gets 1 child with 2 parents, returns array of 1 tree node with 1 marrige to spouse with 1 child', () => {
+        // Arrange
+        const parent1 = {
+            id: 1,
+            name: 'Parent1',
+            parent1Id: null,
+            parent2Id: null
+        };
+        const parent2 = {
+            id: 2,
+            name: 'Parent2',
+            parent1Id: null,
+            parent2Id: null
+        };
+        const child = {
+            id: 3,
+            name: 'Child',
+            parent1Id: 1,
+            parent2Id: 2
+        };
+        const members = [parent1, parent2, child];
+
+        // Act
+        const result = seeder._combineIntoMarriages(members);
+
+        // Assert
+        assert.equal(result[0].marriages[0].spouse?.id, parent2.id);
+        assert.equal(result[0].marriages[0].children[0].id, child.id);
+        assert.equal(result[0].marriages[0].children.length, 1);
+
+    })
+    it('gets 1 parent with multiple spouses and children, returns array of 1 tree node with multiple marriages to spouses with children', () => {
+        // Arrange
+        const parent = {
+            id: 1,
+            name: 'Parent',
+            parent1Id: null,
+            parent2Id: null
+        };
+        const spouse1 = {
+            id: 2,
+            name: 'Spouse1',
+            parent1Id: null,
+            parent2Id: null
+        };
+        const spouse2 = {
+            id: 3,
+            name: 'Spouse2',
+            parent1Id: null,
+            parent2Id: null
+        };
+        const child1 = {
+            id: 4,
+            name: 'Child1',
+            parent1Id: 1,
+            parent2Id: 2
+        };
+        const child2 = {
+            id: 5,
+            name: 'Child2',
+            parent1Id: 1,
+            parent2Id: 3
+        };
+        const members = [parent, spouse1, spouse2, child1, child2];
+
+        // Act
+        const result = seeder._combineIntoMarriages(members);
+
+        // Assert
+        assert.equal(result.length, 1);
+        assert.equal(result[0].marriages.length, 2);
+        assert.equal(result[0].marriages[0].spouse?.id, spouse1.id);
+        assert.equal(result[0].marriages[0].children[0].id, child1.id);
+        assert.equal(result[0].marriages[0].children.length, 1);
+        assert.equal(result[0].marriages[1].spouse?.id, spouse2.id);
+        assert.equal(result[0].marriages[1].children[0].id, child2.id);
+        assert.equal(result[0].marriages[1].children.length, 1);
+    })
+    it('gets 2 children with 2 parents in different order, returns array of 1 tree node with 1 marriage to spouse with 2 children', () => {
+        // Arrange
+        const parent1 = {
+            id: 1,
+            name: 'Parent1',
+            parent1Id: null,
+            parent2Id: null
+        };
+        const parent2 = {
+            id: 2,
+            name: 'Parent2',
+            parent1Id: null,
+            parent2Id: null
+        };
+        const child1 = {
+            id: 3,
+            name: 'Child1',
+            parent1Id: 1,
+            parent2Id: 2
+        };
+        const child2 = {
+            id: 4,
+            name: 'Child2',
+            parent1Id: 2,
+            parent2Id: 1
+        };
+        const members = [parent1, parent2, child1, child2];
+
+        // Act
+        const result = seeder._combineIntoMarriages(members);
+
+        // Assert
+        assert.equal(result.length, 1);
+        assert.equal(result[0].marriages[0].spouse?.id, parent2.id);
+        assert.equal(result[0].marriages[0].children[0].id, child1.id);
+        assert.equal(result[0].marriages[0].children[1].id, child2.id);
+        assert.equal(result[0].marriages[0].children.length, 2);
+    })
 });
