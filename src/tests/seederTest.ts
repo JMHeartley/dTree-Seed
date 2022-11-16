@@ -264,6 +264,10 @@ describe('_getRelatives', () => {
 });
 
 describe('_combineIntoMarriages', () => {
+    it('gets empty array, should throw error', () => {
+        // Assert
+        assert.throws(() => seeder._combineIntoMarriages([]));
+    })
     it('gets 1 member, returns array of 1 treeNode', () => {
         // Arrange
         const members = [mockMembers.AryaStark];
