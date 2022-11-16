@@ -110,7 +110,7 @@ let dTreeSeeder = {
 
         return members;
     },
-    _combineIntoMarriages(data: Member[]): TreeNode[] {
+    _combineIntoMarriages: function (data: Member[]): TreeNode[] {
         if (data.length === 1) {
             return data.map((member) => new TreeNode(member));
         }
