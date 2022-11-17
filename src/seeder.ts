@@ -3,6 +3,7 @@ import TreeNodeMarriage from "./treeNodeMarriage";
 import TreeNode from "./treeNode";
 
 let dTreeSeeder = {
+    _generationLimit: 100,
     _getWithParentIds: function (data: Member[], id: number | null): Member {
         const member = data.find((member) => member.id === id);
 
@@ -172,6 +173,18 @@ let dTreeSeeder = {
             throw new Error("Data cannot be empty");
         }
 
+        if (data.length === 1) {
+            return data;
+        }
+
+        let count = 0;
+        while (data.length > 1) {
+            count++;
+
+            if (count > this._generationLimit) {
+                throw new Error(`Data contains multiple roots or spans more than ${this._generationLimit} generations.`);
+            }
+        }
         return data;
     },
     seed: function (data: Member[], targetId?: number): TreeNode[] {
@@ -185,8 +198,9 @@ let dTreeSeeder = {
 //3. generate tree hierarchy
 //4. return in json format
 //5. handle extra details
-//6. add options object to specify which relatives to include
-//7. confirm usability with member interface
-//8. write instructions for usage
+//6. check if dTree supports step siblings
+//7. add options object to specify which relatives to include
+//8. confirm usability with member interface
+//9. write instructions for usage
 
 export default dTreeSeeder;

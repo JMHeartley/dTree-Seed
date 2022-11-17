@@ -494,4 +494,26 @@ describe('_coalesce', () => {
         assert.equal(result[0].marriages[0].spouse?.id, mockMembers.CatelynStark.id);
         assert.deepEqual(result[0].marriages[0].children.map(child => child.id), marriage.children.map(child => child.id));
     })
+    //two generations => valid tree
+    //dTree sample data => valid tree
+    //four generations => valid tree
+
+    //two nodes are descendants of each other => valid tree
+    //spouse is descendant or parent => valid tree
+    //spouse is cousin => valid tree
+
+    //has to pivot on node marriage - occurs when spouse has lower id value but is a descendant of the tree
+    //duplicate tree nodes => throws error
+    //spans more than generation limit => throws error
+
+    it('has multiple root nodes, should throw error', () => {
+        // Arrange
+        const nodes = [
+            new TreeNode(mockMembers.AryaStark),
+            new TreeNode(mockMembers.Parent1)
+        ];
+
+        // Assert
+        assert.throws(() => seeder._coalesce(nodes));
+    })
 });
