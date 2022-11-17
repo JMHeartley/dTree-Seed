@@ -1,6 +1,6 @@
 import Member from "./member";
-import TreeNodeMarriage from "./treeNodeMarriage";
 import TreeNode from "./treeNode";
+import TreeNodeMarriage from "./treeNodeMarriage";
 
 let dTreeSeeder = {
     _generationLimit: 100,
