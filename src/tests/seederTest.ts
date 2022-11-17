@@ -494,6 +494,43 @@ describe('_coalesce', () => {
         assert.equal(result[0].marriages[0].spouse?.id, mockMembers.CatelynStark.id);
         assert.deepEqual(result[0].marriages[0].children.map(child => child.id), marriage.children.map(child => child.id));
     })
+    it('gets 2 generations, should return valid tree', () => {
+        // Arrange
+        const nedStarkNode = new TreeNode(mockMembers.EdardStark);
+        const nedStarkMarriage = new TreeNodeMarriage();
+        nedStarkMarriage.spouse = new TreeNode(mockMembers.CatelynStark);
+        nedStarkMarriage.children = [
+            new TreeNode(mockMembers.AryaStark),
+            new TreeNode(mockMembers.BranStark),
+            new TreeNode(mockMembers.RickonStark),
+            new TreeNode(mockMembers.SansaStark)
+        ];
+        nedStarkNode.marriages.push(nedStarkMarriage);
+        const rickardStarkNode = new TreeNode(mockMembers.RickardStark);
+        const rickardStarkMarriage = new TreeNodeMarriage();
+        rickardStarkMarriage.spouse = new TreeNode(mockMembers.LyarraStark);
+        rickardStarkMarriage.children = [
+            new TreeNode(mockMembers.EdardStark),
+            new TreeNode(mockMembers.BenjenStark),
+            new TreeNode(mockMembers.BrandonStark),
+            new TreeNode(mockMembers.LyannaStark)
+        ];
+        rickardStarkNode.marriages.push(rickardStarkMarriage);
+
+        // Assert
+        const result = seeder._coalesce([nedStarkNode, rickardStarkNode]);
+
+        // Assert
+        assert.equal(result.length, 1);
+        assert.equal(result[0].id, mockMembers.RickardStark.id);
+        assert.equal(result[0].marriages[0].spouse?.id, mockMembers.LyarraStark.id);
+        assert.deepEqual(result[0].marriages[0].children.map(child => child.id), rickardStarkMarriage.children.map(child => child.id));
+
+        const nedStarkInResult = result[0].marriages[0].children.find(child => child.id === mockMembers.EdardStark.id);
+        assert.equal(nedStarkInResult?.marriages[0].spouse?.id, mockMembers.CatelynStark.id);
+        assert.deepEqual(nedStarkInResult?.marriages[0].children.map(child => child.id), nedStarkMarriage.children.map(child => child.id));
+    })
+
     //two generations => valid tree
     //dTree sample data => valid tree
     //four generations => valid tree

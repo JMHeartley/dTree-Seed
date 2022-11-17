@@ -179,6 +179,14 @@ let dTreeSeeder = {
 
         let count = 0;
         while (data.length > 1) {
+            for (let index = 0; index < data.length; index++) {
+                const node = data[index];
+                const otherNodes = data.filter((otherNode) => otherNode !== node);
+
+                if (otherNodes.some(otherNode => otherNode.canInsertAsDescendant(node))) {
+                    data.splice(index, 1);
+                }
+            }
             count++;
 
             if (count > this._generationLimit) {
