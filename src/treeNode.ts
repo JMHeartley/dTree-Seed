@@ -27,6 +27,10 @@ class TreeNode {
                 this._overwriteChild(marriage, descendent);
                 return true;
             }
+
+            if (marriage.children.some((child) => child.canInsertAsDescendant(descendent))) {
+                return true;
+            }
         }
         return false;
     }

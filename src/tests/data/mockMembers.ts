@@ -152,6 +152,72 @@ class MockMembers {
         parent1Id: MockMembers.Parent1.id,
         parent2Id: 999
     });
+    static Gen1Parent1: MockMember = new MockMember({
+        id: 23,
+        name: 'Gen 1 Parent 1',
+        parent1Id: null,
+        parent2Id: null
+    });
+    static Gen1Parent2: MockMember = new MockMember({
+        id: 24,
+        name: 'Gen 1 Parent 2',
+        parent1Id: null,
+        parent2Id: null
+    });
+    static Gen1ChildGen2Parent1: MockMember = new MockMember({
+        id: 25,
+        name: 'Gen 1 Child, Gen 2 Parent 1',
+        parent1Id: MockMembers.Gen1Parent1.id,
+        parent2: MockMembers.Gen1Parent2.id
+    });
+    static Gen2Parent2: MockMember = new MockMember({
+        id: 26,
+        name: 'Gen 2 Parent 2',
+        parent1Id: null,
+        parent2Id: null
+    });
+    static Gen3Parent1: MockMember = new MockMember({
+        id: 27,
+        name: 'Gen 3 Parent 1',
+        parent1Id: null,
+        parent2Id: null
+    });
+    static Gen2ChildGen3Parent2: MockMember = new MockMember({
+        id: 28,
+        name: 'Gen 2 Child, Gen 3 Parent 2',
+        parent1Id: MockMembers.Gen1ChildGen2Parent1.id,
+        parent2Id: MockMembers.Gen2Parent2.id
+    });
+    static Gen3ChildGen4Parent1: MockMember = new MockMember({
+        id: 29,
+        name: 'Gen 3 Child, Gen 4 Parent 1',
+        parent1Id: MockMembers.Gen3Parent1.id,
+        parent2Id: MockMembers.Gen2ChildGen3Parent2.id
+    });
+    static Gen4Parent2: MockMember = new MockMember({
+        id: 30,
+        name: 'Gen 4 Parent 2',
+        parent1Id: null,
+        parent2Id: null
+    });
+    static Gen4ChildGen5Parent1: MockMember = new MockMember({
+        id: 31,
+        name: 'Gen 4 Child, Gen 5 Parent 1',
+        parent1Id: MockMembers.Gen3ChildGen4Parent1.id,
+        parent2Id: MockMembers.Gen4Parent2.id
+    });
+    static Gen5Parent2: MockMember = new MockMember({
+        id: 32,
+        name: 'Gen 5 Parent 2',
+        parent1Id: null,
+        parent2Id: null
+    });
+    static Gen5Child: MockMember = new MockMember({
+        id: 33,
+        name: 'Gen 5 Child',
+        parent1Id: MockMembers.Gen4ChildGen5Parent1.id,
+        parent2Id: MockMembers.Gen5Parent2.id
+    });
     static getMockMembers(): MockMember[] {
         return [
             MockMembers.RickardStark,
@@ -176,7 +242,18 @@ class MockMembers {
             MockMembers.BranStark,
             MockMembers.RickonStark,
             MockMembers.Parent1IsNotInData,
-            MockMembers.Parent2IsNotInData
+            MockMembers.Parent2IsNotInData,
+            MockMembers.Gen1Parent1,
+            MockMembers.Gen1Parent2,
+            MockMembers.Gen1ChildGen2Parent1,
+            MockMembers.Gen2Parent2,
+            MockMembers.Gen3Parent1,
+            MockMembers.Gen2ChildGen3Parent2,
+            MockMembers.Gen3ChildGen4Parent1,
+            MockMembers.Gen4Parent2,
+            MockMembers.Gen4ChildGen5Parent1,
+            MockMembers.Gen5Parent2,
+            MockMembers.Gen5Child
         ];
     }
 }

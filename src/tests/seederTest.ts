@@ -530,9 +530,64 @@ describe('_coalesce', () => {
         assert.equal(nedStarkInResult?.marriages[0].spouse?.id, mockMembers.CatelynStark.id);
         assert.deepEqual(nedStarkInResult?.marriages[0].children.map(child => child.id), nedStarkMarriage.children.map(child => child.id));
     })
+    it('gets 5 generations, should return valid tree', () => {
+        // Arrange
+        const gen1Node = new TreeNode(mockMembers.Gen1Parent1);
+        const gen1Marriage = new TreeNodeMarriage();
+        gen1Marriage.spouse = new TreeNode(mockMembers.Gen1Parent2);
+        gen1Marriage.children = [new TreeNode(mockMembers.Gen1ChildGen2Parent1)];
+        gen1Node.marriages.push(gen1Marriage);
 
-    //dTree sample data => valid tree
-    //four generations => valid tree
+        const gen2Node = new TreeNode(mockMembers.Gen1ChildGen2Parent1);
+        const gen2Marriage = new TreeNodeMarriage();
+        gen2Marriage.spouse = new TreeNode(mockMembers.Gen2Parent2);
+        gen2Marriage.children = [new TreeNode(mockMembers.Gen2ChildGen3Parent2)];
+        gen2Node.marriages.push(gen2Marriage);
+
+        const gen3Node = new TreeNode(mockMembers.Gen2ChildGen3Parent2);
+        const gen3Marriage = new TreeNodeMarriage();
+        gen3Marriage.spouse = new TreeNode(mockMembers.Gen3Parent1);
+        gen3Marriage.children = [new TreeNode(mockMembers.Gen3ChildGen4Parent1)];
+        gen3Node.marriages.push(gen3Marriage);
+
+        const gen4Node = new TreeNode(mockMembers.Gen3ChildGen4Parent1);
+        const gen4Marriage = new TreeNodeMarriage();
+        gen4Marriage.spouse = new TreeNode(mockMembers.Gen4Parent2);
+        gen4Marriage.children = [new TreeNode(mockMembers.Gen4ChildGen5Parent1)];
+        gen4Node.marriages.push(gen4Marriage);
+
+        const gen5Node = new TreeNode(mockMembers.Gen4ChildGen5Parent1);
+        const gen5Marriage = new TreeNodeMarriage();
+        gen5Marriage.spouse = new TreeNode(mockMembers.Gen5Parent2);
+        gen5Marriage.children = [new TreeNode(mockMembers.Gen5Child)];
+        gen5Node.marriages.push(gen5Marriage);
+
+        // Assert
+        const result = seeder._coalesce([gen1Node, gen2Node, gen3Node, gen4Node, gen5Node]);
+
+        // Assert
+        assert.equal(result.length, 1);
+        const gen1InResult = result[0];
+        assert.equal(gen1InResult.id, mockMembers.Gen1Parent1.id);
+        assert.equal(gen1InResult.marriages[0].spouse?.id, mockMembers.Gen1Parent2.id);
+        assert.deepEqual(gen1InResult.marriages[0].children.map(child => child.id), gen1Marriage.children.map(child => child.id));
+
+        const gen2InResult = gen1InResult.marriages[0].children.find(child => child.id === mockMembers.Gen1ChildGen2Parent1.id);
+        assert.equal(gen2InResult?.marriages[0].spouse?.id, mockMembers.Gen2Parent2.id);
+        assert.deepEqual(gen2InResult?.marriages[0].children.map(child => child.id), gen2Marriage.children.map(child => child.id));
+
+        const gen3InResult = gen2InResult?.marriages[0].children.find(child => child.id === mockMembers.Gen2ChildGen3Parent2.id);
+        assert.equal(gen3InResult?.marriages[0].spouse?.id, mockMembers.Gen3Parent1.id);
+        assert.deepEqual(gen3InResult?.marriages[0].children.map(child => child.id), gen3Marriage.children.map(child => child.id));
+
+        const gen4InResult = gen3InResult?.marriages[0].children.find(child => child.id === mockMembers.Gen3ChildGen4Parent1.id);;
+        assert.equal(gen4InResult?.marriages[0].spouse?.id, mockMembers.Gen4Parent2.id);
+        assert.deepEqual(gen4InResult?.marriages[0].children.map(child => child.id), gen4Marriage.children.map(child => child.id));
+
+        const gen5InResult = gen4InResult?.marriages[0].children.find(child => child.id === mockMembers.Gen4ChildGen5Parent1.id);;
+        assert.equal(gen5InResult?.marriages[0].spouse?.id, mockMembers.Gen5Parent2.id);
+        assert.deepEqual(gen5InResult?.marriages[0].children.map(child => child.id), gen5Marriage.children.map(child => child.id));
+    })
 
     //two nodes are descendants of each other => valid tree
     //spouse is descendant or parent => valid tree
@@ -562,3 +617,5 @@ describe('_coalesce', () => {
         assert.throws(() => seeder._coalesce(nodes));
     })
 });
+
+//seed => dTree sample data => valid tree
