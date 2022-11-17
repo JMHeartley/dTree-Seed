@@ -531,7 +531,6 @@ describe('_coalesce', () => {
         assert.deepEqual(nedStarkInResult?.marriages[0].children.map(child => child.id), nedStarkMarriage.children.map(child => child.id));
     })
 
-    //two generations => valid tree
     //dTree sample data => valid tree
     //four generations => valid tree
 
@@ -540,7 +539,6 @@ describe('_coalesce', () => {
     //spouse is cousin => valid tree
 
     //has to pivot on node marriage - occurs when spouse has lower id value but is a descendant of the tree
-    //duplicate tree nodes => throws error
     //spans more than generation limit => throws error
 
     it('has multiple root nodes, should throw error', () => {
@@ -548,6 +546,16 @@ describe('_coalesce', () => {
         const nodes = [
             new TreeNode(mockMembers.AryaStark),
             new TreeNode(mockMembers.Parent1)
+        ];
+
+        // Assert
+        assert.throws(() => seeder._coalesce(nodes));
+    })
+    it('get duplicate tree nodes, should throw error', () => {
+        // Arrange
+        const nodes = [
+            new TreeNode(mockMembers.AryaStark),
+            new TreeNode(mockMembers.AryaStark)
         ];
 
         // Assert
