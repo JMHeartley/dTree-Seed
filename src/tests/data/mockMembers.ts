@@ -172,7 +172,7 @@ class MockMembers implements Member {
         id: 26,
         name: 'Gen 1 Child, Gen 2 Parent 1',
         parent1Id: MockMembers.Gen1Parent1.id,
-        parent2: MockMembers.Gen1Parent2.id
+        parent2Id: MockMembers.Gen1Parent2.id
     });
     static Gen3Parent1: MockMembers = new MockMembers({
         id: 27,
