@@ -531,6 +531,34 @@ describe('_coalesce', () => {
         assert.equal(nedStarkInResult?.marriages[0].spouse?.id, MockMembers.CatelynStark.id);
         assert.deepEqual(nedStarkInResult?.marriages[0].children.map(child => child.id), nedStarkMarriage.children.map(child => child.id));
     })
+    it('descendent is listed as spouse in marriage, should pivot node on marriage and return valid tree', () => {
+        // Arrange
+        const gen1Node = new TreeNode(MockMembers.Gen1Parent1);
+        const gen1Marriage = new TreeNodeMarriage();
+        gen1Marriage.spouse = new TreeNode(MockMembers.Gen1Parent2);
+        gen1Marriage.children = [new TreeNode(MockMembers.Gen1ChildGen2Parent2)];
+        gen1Node.marriages.push(gen1Marriage);
+
+        const gen2Node = new TreeNode(MockMembers.Gen2Parent1);
+        const gen2Marriage = new TreeNodeMarriage();
+        gen2Marriage.spouse = new TreeNode(MockMembers.Gen1ChildGen2Parent2);
+        gen2Marriage.children = [new TreeNode(MockMembers.Gen2ChildGen3Parent2)];
+        gen2Node.marriages.push(gen2Marriage);
+
+        // Act
+        const result = Seeder._coalesce([gen1Node, gen2Node]);
+
+        // Assert
+        assert.equal(result.length, 1);
+        const gen1InResult = result[0];
+        assert.equal(gen1InResult.id, MockMembers.Gen1Parent1.id);
+        assert.equal(gen1InResult.marriages[0].spouse?.id, MockMembers.Gen1Parent2.id);
+        assert.deepEqual(gen1InResult.marriages[0].children.map(child => child.id), gen1Marriage.children.map(child => child.id));
+
+        const gen2InResult = gen1InResult.marriages[0].children.find(child => child.id === MockMembers.Gen1ChildGen2Parent2.id);
+        assert.equal(gen2InResult?.marriages[0].spouse?.id, MockMembers.Gen2Parent1.id);
+        assert.deepEqual(gen2InResult?.marriages[0].children.map(child => child.id), gen2Marriage.children.map(child => child.id));
+    })
     it('gets 5 generations, should return valid tree', () => {
         // Arrange
         const gen1Node = new TreeNode(MockMembers.Gen1Parent1);
@@ -589,14 +617,6 @@ describe('_coalesce', () => {
         assert.equal(gen5InResult?.marriages[0].spouse?.id, MockMembers.Gen5Parent2.id);
         assert.deepEqual(gen5InResult?.marriages[0].children.map(child => child.id), gen5Marriage.children.map(child => child.id));
     })
-
-    //two nodes are descendants of each other => valid tree
-    //spouse is descendant or parent => valid tree
-    //spouse is cousin => valid tree
-
-    //has to pivot on node marriage - occurs when spouse has lower id value but is a descendant of the tree
-    //spans more than generation limit => throws error
-
     it('has multiple root nodes, should throw error', () => {
         // Arrange
         const nodes = [
