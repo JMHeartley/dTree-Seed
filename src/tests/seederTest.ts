@@ -617,7 +617,7 @@ describe('_coalesce', () => {
         assert.equal(gen5InResult?.marriages[0].spouse?.id, MockMembers.Gen5Parent2.id);
         assert.deepEqual(gen5InResult?.marriages[0].children.map(child => child.id), gen5Marriage.children.map(child => child.id));
     })
-    it('has multiple root nodes, should throw error', () => {
+    it('gets multiple root nodes, should throw error', () => {
         // Arrange
         const nodes = [
             new TreeNode(MockMembers.AryaStark),
