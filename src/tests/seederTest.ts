@@ -536,12 +536,12 @@ describe('_coalesce', () => {
         const gen1Node = new TreeNode(MockMembers.Gen1Parent1);
         const gen1Marriage = new TreeNodeMarriage();
         gen1Marriage.spouse = new TreeNode(MockMembers.Gen1Parent2);
-        gen1Marriage.children = [new TreeNode(MockMembers.Gen1ChildGen2Parent1)];
+        gen1Marriage.children = [new TreeNode(MockMembers.Gen1ChildGen2Parent2)];
         gen1Node.marriages.push(gen1Marriage);
 
-        const gen2Node = new TreeNode(MockMembers.Gen1ChildGen2Parent1);
+        const gen2Node = new TreeNode(MockMembers.Gen1ChildGen2Parent2);
         const gen2Marriage = new TreeNodeMarriage();
-        gen2Marriage.spouse = new TreeNode(MockMembers.Gen2Parent2);
+        gen2Marriage.spouse = new TreeNode(MockMembers.Gen2Parent1);
         gen2Marriage.children = [new TreeNode(MockMembers.Gen2ChildGen3Parent2)];
         gen2Node.marriages.push(gen2Marriage);
 
@@ -573,8 +573,8 @@ describe('_coalesce', () => {
         assert.equal(gen1InResult.marriages[0].spouse?.id, MockMembers.Gen1Parent2.id);
         assert.deepEqual(gen1InResult.marriages[0].children.map(child => child.id), gen1Marriage.children.map(child => child.id));
 
-        const gen2InResult = gen1InResult.marriages[0].children.find(child => child.id === MockMembers.Gen1ChildGen2Parent1.id);
-        assert.equal(gen2InResult?.marriages[0].spouse?.id, MockMembers.Gen2Parent2.id);
+        const gen2InResult = gen1InResult.marriages[0].children.find(child => child.id === MockMembers.Gen1ChildGen2Parent2.id);
+        assert.equal(gen2InResult?.marriages[0].spouse?.id, MockMembers.Gen2Parent1.id);
         assert.deepEqual(gen2InResult?.marriages[0].children.map(child => child.id), gen2Marriage.children.map(child => child.id));
 
         const gen3InResult = gen2InResult?.marriages[0].children.find(child => child.id === MockMembers.Gen2ChildGen3Parent2.id);
