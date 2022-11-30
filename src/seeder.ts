@@ -19,10 +19,10 @@ let dTreeSeeder = {
         member.parent2Id = null;
         return member;
     },
-    _get: function (data: Member[], ids: number[], parentOptions: { preserveParentIds: boolean }): Member[] {
+    _get: function (data: Member[], ids: number[], options: { preserveParentIds: boolean }): Member[] {
         const members = new Array<Member>();
         ids.forEach(id => {
-            const member = (parentOptions.preserveParentIds)
+            const member = (options.preserveParentIds)
                 ? this._getWithParentIds(data, id)
                 : this._getWithoutParentIds(data, id);
             members.push(member);
@@ -202,13 +202,5 @@ let dTreeSeeder = {
         return rootNode;
     }
 };
-
-//3. generate tree hierarchy
-//4. return in json format
-//5. handle extra details
-//6. check if dTree supports step siblings
-//7. add options object to specify which relatives to include
-//8. confirm usability with member interface
-//9. write instructions for usage
 
 export default dTreeSeeder;
