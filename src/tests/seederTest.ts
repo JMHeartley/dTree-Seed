@@ -15,12 +15,8 @@ describe('_getRelatives', () => {
         assert.throws(() => Seeder._getRelatives([]));
     })
     it('gets no targetId, should return an empty array', () => {
-        // Act
-        const result = Seeder._getRelatives(testData);
-
         // Assert
-        assert.isArray(result);
-        assert.isEmpty(result);
+        assert.throws(() => Seeder._getRelatives(testData));
     })
     describe('gets targetId', () => {
         it('target is not in data, should throw error', () => {

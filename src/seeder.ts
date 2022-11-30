@@ -59,7 +59,7 @@ let dTreeSeeder = {
         }
 
         if (targetId === undefined) {
-            return [];
+            throw new Error("TargetId cannot be undefined");
         }
 
         const members = new Array<Member>();
