@@ -9,6 +9,9 @@ import TreeNodeMarriage from '../treeNodeMarriage';
 import MockMembers from './data/mockMembers';
 const testData = MockMembers.getMockMembers();
 
+import dTreeSampleData from './data/dTreeSampleData.json';
+import dTreeSampleMockMembers from './data/dTreeSampleMockMembers';
+
 describe('_getRelatives', () => {
     it('gets empty array, should throw error', () => {
         // Assert
@@ -635,4 +638,22 @@ describe('_coalesce', () => {
     })
 });
 
-//seed => dTree sample data => valid tree
+describe('seed', () => {
+    it('gets empty array, should throw error', () => {
+        // Assert
+        assert.throws(() => Seeder.seed([]));
+    })
+    it('gets no targetId, should throw error', () => {
+        // Assert
+        assert.throws(() => Seeder.seed([MockMembers.AryaStark]));
+    })
+    it('gets dTree sample data, should return valid tree in JSON format', () => {
+        // Act
+        const result = Seeder.seed(dTreeSampleMockMembers.getMockMembers(), dTreeSampleMockMembers.NiclasSuperLongsurname.id);
+
+        // Assert
+        assert.isString(result);
+        assert.equal(result, JSON.stringify(dTreeSampleData));
+    })
+});
+

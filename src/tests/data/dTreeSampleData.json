@@ -1,0 +1,62 @@
+[
+    {
+        "id": 0,
+        "name": "Niclas Superlongsurname",
+        "marriages": [
+            {
+                "spouse": {
+                    "id": 1,
+                    "name": "Iliana",
+                    "marriages": []
+                },
+                "children": [
+                    {
+                        "id": 2,
+                        "name": "James",
+                        "marriages": [
+                            {
+                                "spouse": {
+                                    "id": 3,
+                                    "name": "Alexandra",
+                                    "marriages": []
+                                },
+                                "children": [
+                                    {
+                                        "id": 4,
+                                        "name": "Eric",
+                                        "marriages": []
+                                    },
+                                    {
+                                        "id": 6,
+                                        "name": "Jane",
+                                        "marriages": []
+                                    },
+                                    {
+                                        "id": 7,
+                                        "name": "Jasper",
+                                        "marriages": []
+                                    },
+                                    {
+                                        "id": 8,
+                                        "name": "Emma",
+                                        "marriages": []
+                                    },
+                                    {
+                                        "id": 9,
+                                        "name": "Julia",
+                                        "marriages": []
+                                    },
+                                    {
+                                        "id": 10,
+                                        "name": "Jessica",
+                                        "marriages": []
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -116,21 +116,36 @@ let dTreeSeeder = {
             return data.map((member) => new TreeNode(member));
         }
 
-        const parentGroups = data.map((member) => {
+        let parentGroups = data.map((member) => {
             return [member.parent1Id, member.parent2Id].filter((id) => id !== null);
         }).filter((group) => group.length > 0);
+
+        parentGroups = [...new Set(parentGroups
+            // sort and stringify for comparison without iterating over each element
+            .map((group) => JSON.stringify(group.sort())))]
+            // parse elements back into objects
+            .map((group) => JSON.parse(group));
 
         if (parentGroups.length === 0) {
             throw new Error("At least one member must have at least one parent");
         }
 
         const treeNodes = new Array<TreeNode>();
-        parentGroups.forEach((parentGroup) => {
-            const parent1Id = parentGroup[0];
-            const node = new TreeNode(this._getWithParentIds(data, parent1Id));
+        parentGroups.forEach((currentParentGroup) => {
+            const nodeId = currentParentGroup[0];
+            const node = new TreeNode(this._getWithParentIds(data, nodeId));
 
-            const nodeMarriages = parentGroups.filter((group) => group.includes(parent1Id));
+            const nodeMarriages = parentGroups.filter((group) => group.includes(nodeId));
             nodeMarriages.forEach((marriedCouple) => {
+
+                // remove marriage to prevent interating on it twice, 
+                //    except if it's currently being iterated by the outer forEach 
+                //       removing that would cause the next one to replaced as current and be skipped
+                const index = parentGroups.indexOf(marriedCouple);
+                if (index !== parentGroups.indexOf(currentParentGroup)) {
+                    parentGroups.splice(index, 1);
+                }
+
                 const marriage = new TreeNodeMarriage();
 
                 const spouseId = marriedCouple[1];
@@ -155,12 +170,6 @@ let dTreeSeeder = {
                 }).map((child) => new TreeNode(child));
 
                 node.marriages.push(marriage);
-            });
-
-            //remove extra marriages
-            nodeMarriages.forEach((marriedCouple) => {
-                const index = parentGroups.indexOf(marriedCouple);
-                parentGroups.splice(index, 1);
             });
 
             treeNodes.push(node);
@@ -195,11 +204,11 @@ let dTreeSeeder = {
         }
         return data;
     },
-    seed: function (data: Member[], targetId?: number): TreeNode[] {
+    seed: function (data: Member[], targetId?: number): string {
         const members = this._getRelatives(data, targetId);
         const marriages = this._combineIntoMarriages(members);
         const rootNode = this._coalesce(marriages);
-        return rootNode;
+        return JSON.stringify(rootNode);
     }
 };
 
