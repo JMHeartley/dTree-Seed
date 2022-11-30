@@ -7,7 +7,7 @@ import TreeNode from '../treeNode';
 import TreeNodeMarriage from '../treeNodeMarriage';
 
 import MockMembers from './data/mockMembers';
-const testData = MockMembers.getMockMembers();
+const testData = MockMembers.getAll();
 
 import dTreeSampleData from './data/dTreeSampleData.json';
 import dTreeSampleMockMembers from './data/dTreeSampleMockMembers';
@@ -649,7 +649,7 @@ describe('seed', () => {
     })
     it('gets dTree sample data, should return valid tree in JSON format', () => {
         // Act
-        const result = Seeder.seed(dTreeSampleMockMembers.getMockMembers(), dTreeSampleMockMembers.NiclasSuperLongsurname.id);
+        const result = Seeder.seed(dTreeSampleMockMembers.getAll(), dTreeSampleMockMembers.NiclasSuperLongsurname.id);
 
         // Assert
         assert.isString(result);

@@ -1,6 +1,6 @@
 import Member from "../../member";
 
-class dTreeMockMember implements Member {
+class dTreeMockMembers implements Member {
     constructor(member: any) {
         this.id = member.id;
         this.name = member.name;
@@ -11,76 +11,74 @@ class dTreeMockMember implements Member {
     name: string;
     parent1Id: number | null;
     parent2Id: number | null;
-}
 
-class dTreeMockMembers {
-    static NiclasSuperLongsurname: dTreeMockMember = new dTreeMockMember({
+    static NiclasSuperLongsurname: dTreeMockMembers = new dTreeMockMembers({
         id: 0,
         name: 'Niclas Superlongsurname',
         parent1Id: null,
         parent2Id: null
     });
-    static Iliana: dTreeMockMember = new dTreeMockMember({
+    static Iliana: dTreeMockMembers = new dTreeMockMembers({
         id: 1,
         name: 'Iliana',
         parent1Id: null,
         parent2Id: null
     });
-    static James: dTreeMockMember = new dTreeMockMember({
+    static James: dTreeMockMembers = new dTreeMockMembers({
         id: 2,
         name: 'James',
         parent1Id: dTreeMockMembers.NiclasSuperLongsurname.id,
         parent2Id: dTreeMockMembers.Iliana.id
     });
-    static Alexandra: dTreeMockMember = new dTreeMockMember({
+    static Alexandra: dTreeMockMembers = new dTreeMockMembers({
         id: 3,
         name: 'Alexandra',
         parent1Id: null,
         parent2Id: null
     });
-    static Eric: dTreeMockMember = new dTreeMockMember({
+    static Eric: dTreeMockMembers = new dTreeMockMembers({
         id: 4,
         name: 'Eric',
         parent1Id: dTreeMockMembers.Alexandra.id,
         parent2Id: dTreeMockMembers.James.id
     });
-    static Eva: dTreeMockMember = new dTreeMockMember({
+    static Eva: dTreeMockMembers = new dTreeMockMembers({
         id: 5,
         name: 'Eva',
         parent1Id: null,
         parent2Id: null
     });
-    static Jane: dTreeMockMember = new dTreeMockMember({
+    static Jane: dTreeMockMembers = new dTreeMockMembers({
         id: 6,
         name: 'Jane',
         parent1Id: dTreeMockMembers.James.id,
         parent2Id: dTreeMockMembers.Alexandra.id
     });
-    static Jasper: dTreeMockMember = new dTreeMockMember({
+    static Jasper: dTreeMockMembers = new dTreeMockMembers({
         id: 7,
         name: 'Jasper',
         parent1Id: dTreeMockMembers.James.id,
         parent2Id: dTreeMockMembers.Alexandra.id
     });
-    static Emma: dTreeMockMember = new dTreeMockMember({
+    static Emma: dTreeMockMembers = new dTreeMockMembers({
         id: 8,
         name: 'Emma',
         parent1Id: dTreeMockMembers.James.id,
         parent2Id: dTreeMockMembers.Alexandra.id
     });
-    static Julia: dTreeMockMember = new dTreeMockMember({
+    static Julia: dTreeMockMembers = new dTreeMockMembers({
         id: 9,
         name: 'Julia',
         parent1Id: dTreeMockMembers.James.id,
         parent2Id: dTreeMockMembers.Alexandra.id
     });
-    static Jessica: dTreeMockMember = new dTreeMockMember({
+    static Jessica: dTreeMockMembers = new dTreeMockMembers({
         id: 10,
         name: 'Jessica',
         parent1Id: dTreeMockMembers.James.id,
         parent2Id: dTreeMockMembers.Alexandra.id
     });
-    static getMockMembers(): dTreeMockMember[] {
+    static getAll(): dTreeMockMembers[] {
         return [
             dTreeMockMembers.NiclasSuperLongsurname,
             dTreeMockMembers.Iliana,
