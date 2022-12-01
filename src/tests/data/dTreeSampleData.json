@@ -2,53 +2,63 @@
     {
         "id": 0,
         "name": "Niclas Superlongsurname",
+        "depthOffset": 1,
         "marriages": [
             {
                 "spouse": {
                     "id": 1,
                     "name": "Iliana",
+                    "depthOffset": 1,
                     "marriages": []
                 },
                 "children": [
                     {
                         "id": 2,
                         "name": "James",
+                        "depthOffset": 2,
                         "marriages": [
                             {
                                 "spouse": {
                                     "id": 3,
                                     "name": "Alexandra",
+                                    "depthOffset": 2,
                                     "marriages": []
                                 },
                                 "children": [
                                     {
                                         "id": 4,
                                         "name": "Eric",
+                                        "depthOffset": 3,
                                         "marriages": []
                                     },
                                     {
                                         "id": 6,
                                         "name": "Jane",
+                                        "depthOffset": 3,
                                         "marriages": []
                                     },
                                     {
                                         "id": 7,
                                         "name": "Jasper",
+                                        "depthOffset": 3,
                                         "marriages": []
                                     },
                                     {
                                         "id": 8,
                                         "name": "Emma",
+                                        "depthOffset": 3,
                                         "marriages": []
                                     },
                                     {
                                         "id": 9,
                                         "name": "Julia",
+                                        "depthOffset": 3,
                                         "marriages": []
                                     },
                                     {
                                         "id": 10,
                                         "name": "Jessica",
+                                        "depthOffset": 3,
                                         "marriages": []
                                     }
                                 ]

@@ -5,10 +5,12 @@ class TreeNode {
     constructor(member: Member) {
         this.id = member.id;
         this.name = member.name;
+        this.depthOffset = member.depthOffset ?? -1;
         this.marriages = new Array<TreeNodeMarriage>();
     }
     id: number;
     name: string;
+    depthOffset: number;
     marriages: TreeNodeMarriage[];
     canInsertAsDescendant(descendent: TreeNode): boolean {
         if (this.id === descendent.id) {

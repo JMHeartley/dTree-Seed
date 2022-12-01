@@ -37,7 +37,13 @@ let dTreeSeeder = {
         if (childIds.length === 0) {
             return [];
         }
-        return this._get(data, childIds, { preserveParentIds: true });
+        const children = this._get(data, childIds, { preserveParentIds: true });
+
+        const parentDepthOffset = parents.find((parent) => parent.depthOffset !== undefined)?.depthOffset;
+        if (parentDepthOffset !== undefined) {
+            children.forEach((child) => child.depthOffset = parentDepthOffset + 1);
+        }
+        return children;
     },
     _getOtherParents: function (data: Member[], children: Member[], ...parents: Member[]): Member[] {
         const parentIds = parents.map((parent) => parent.id);
@@ -51,7 +57,13 @@ let dTreeSeeder = {
             index === otherParentIds.indexOf(value));
 
         // remove parentIds so their ancestors aren't included
-        return this._get(data, uniqueOtherParentIds as number[], { preserveParentIds: false });
+        const otherParents = this._get(data, uniqueOtherParentIds as number[], { preserveParentIds: false });
+
+        const parentDepthOffset = parents.find((parent) => parent.depthOffset !== undefined)?.depthOffset;
+        if (parentDepthOffset !== undefined) {
+            otherParents.forEach((otherParent) => otherParent.depthOffset = parentDepthOffset);
+        }
+        return otherParents;
     },
     _getRelatives: function (data: Member[], targetId?: number): Member[] {
         if (data.length === 0) {
@@ -62,31 +74,41 @@ let dTreeSeeder = {
             throw new Error("TargetId cannot be undefined");
         }
 
+        // start at 1, as specificed by dTree
+        const depthOffsetStart = 1;
         const members = new Array<Member>();
 
         const target = this._getWithParentIds(data, targetId);
-        members.push(target);
 
         const hasParent1 = target.parent1Id !== null;
         const hasParent2 = target.parent2Id !== null;
-        if (hasParent1) {
-            // remove parentIds so their ancestors aren't included
-            const parent1 = this._getWithoutParentIds(data, target.parent1Id);
-            members.push(parent1);
+        if (!hasParent1 && !hasParent2) {
+            target.depthOffset = depthOffsetStart;
         }
-        if (hasParent2) {
-            // remove parentIds so their ancestors aren't included
-            const parent2 = this._getWithoutParentIds(data, target.parent2Id);
-            members.push(parent2);
-        }
+        else {
+            target.depthOffset = depthOffsetStart + 1;
 
-        if (hasParent1 || hasParent2) {
-            const siblings = data.filter((member) =>
+            const parentIds = new Array<number>();
+            if (hasParent1) {
+                parentIds.push(target.parent1Id as number);
+            }
+            if (hasParent2) {
+                parentIds.push(target.parent2Id as number);
+            }
+            // remove parentIds so their ancestors aren't included
+            const parents = this._get(data, parentIds, { preserveParentIds: false });
+            parents.forEach((parent) => parent.depthOffset = depthOffsetStart);
+            members.push(...parents);
+
+            const siblingIds = data.filter((member) =>
                 ((member.parent1Id === target.parent1Id || member.parent2Id === target.parent2Id)
                     || (member.parent1Id === target.parent2Id || member.parent2Id === target.parent1Id))
-                && member.id !== target.id);
+                && member.id !== target.id).map((member) => member.id);
+            const siblings = this._get(data, siblingIds, { preserveParentIds: true });
+            siblings.forEach((sibling) => sibling.depthOffset = depthOffsetStart + 1);
             members.push(...siblings);
         }
+        members.push(target);
 
         const children = this._getChildren(data, target);
         members.push(...children);

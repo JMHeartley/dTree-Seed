@@ -655,5 +655,127 @@ describe('seed', () => {
         assert.isString(result);
         assert.equal(result, JSON.stringify(dTreeSampleData));
     })
+    describe('target has no parents', () => {
+        it('target should have depthOffset 1', () => {
+            // Arrange
+            const targetId = MockMembers.Gen1Parent1.id;
+
+            // Act
+            const result = Seeder.seed(testData, targetId);
+
+            // Assert
+            const parsedResult = JSON.parse(result);
+            const gen1: TreeNode[] = parsedResult;
+            assert.include(gen1.map(node => node.id), targetId);
+            assert.isTrue(gen1.every((node) => node.depthOffset === 1));
+        })
+        it('target has spouse, target and spouse should have same depthOffset', () => {
+            // Arrange
+            const targetId = MockMembers.Gen1Parent1.id;
+            const spouseId = MockMembers.Gen1Parent2.id;
+
+            // Act
+            const result = Seeder.seed(testData, targetId);
+
+            // Assert
+            const parsedResult = JSON.parse(result);
+            const gen1: TreeNode[] = parsedResult;
+            assert.include(gen1.flatMap((node) => node.marriages.map((marriage) => marriage.spouse?.id)), spouseId);
+            const targetDepthOffset = gen1.find(node => node.id === targetId)?.depthOffset as number;
+            assert.isTrue(gen1.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.depthOffset === targetDepthOffset));
+        })
+        it('target has children, children should have depthOffset 1 more than target', () => {
+            // Arrange
+            const targetId = MockMembers.Gen1Parent1.id;
+            const childId = MockMembers.Gen1ChildGen2Parent2.id;
+
+            // Act
+            const result = Seeder.seed(testData, targetId);
+
+            // Assert
+            const parsedResult = JSON.parse(result);
+            const gen1: TreeNode[] = parsedResult;
+            const gen2 = gen1.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+            assert.include(gen2.map((node) => node.id), childId);
+            const targetDepthOffset = gen1.find(node => node.id === targetId)?.depthOffset as number;
+            assert.isTrue(gen2.every((node) => node.depthOffset === targetDepthOffset + 1));
+        })
+    })
+    describe('target has parents', () => {
+        it('target should have depthOffset 2', () => {
+            // Arrange
+            const targetId = MockMembers.Gen1ChildGen2Parent2.id;
+
+            // Act
+            const result = Seeder.seed(testData, targetId);
+
+            // Assert
+            const parsedResult = JSON.parse(result);
+            const gen1: TreeNode[] = parsedResult;
+            const gen2 = gen1.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+            assert.include(gen2.map(node => node.id), targetId);
+            assert.isTrue(gen2.every((node) => node.depthOffset === 2));
+        })
+        it('target has spouse, target and spouse should have same depthOffset', () => {
+            // Arrange
+            const targetId = MockMembers.Gen1ChildGen2Parent2.id;
+            const spouseId = MockMembers.Gen2Parent1.id;
+
+            // Act
+            const result = Seeder.seed(testData, targetId);
+
+            // Assert
+            const parsedResult = JSON.parse(result);
+            const gen1: TreeNode[] = parsedResult;
+            const gen2 = gen1.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+            assert.include(gen2.flatMap((node) => node.marriages.map((marriage) => marriage.spouse?.id)), spouseId);
+            const targetDepthOffset = gen2.find(node => node.id === targetId)?.depthOffset as number;
+            assert.isTrue(gen2.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.depthOffset === targetDepthOffset));
+        })
+        it('target has children, children should have depthOffset 1 more than target', () => {
+            // Arrange
+            const targetId = MockMembers.Gen1ChildGen2Parent2.id;
+            const childId = MockMembers.Gen2ChildGen3Parent2.id;
+
+            // Act
+            const result = Seeder.seed(testData, targetId);
+
+            // Assert
+            const parsedResult = JSON.parse(result);
+            const gen1: TreeNode[] = parsedResult;
+            const gen2 = gen1.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+            const gen3 = gen2.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+            assert.include(gen3.map((node) => node.id), childId);
+            const targetDepthOffset = gen2.find(node => node.id === targetId)?.depthOffset as number;
+            assert.isTrue(gen3.every((node) => node.depthOffset === targetDepthOffset + 1));
+        })
+    })
+    it('should add depthOffset to each generation', () => {
+        // Act
+        const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id);
+
+        // Assert
+        const parsedResult = JSON.parse(result);
+        const gen1: TreeNode[] = parsedResult;
+
+        assert.isTrue(gen1.every((node) => node.depthOffset === 1));
+        assert.isTrue(gen1.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.depthOffset == 1));
+
+        const gen2 = gen1.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+        assert.isTrue(gen2.every((node) => node.depthOffset === 2));
+        assert.isTrue(gen2.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.depthOffset === 2));
+
+        const gen3 = gen2.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+        assert.isTrue(gen3.every((node) => node.depthOffset === 3));
+        assert.isTrue(gen3.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.depthOffset === 3));
+
+        const gen4 = gen3.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+        assert.isTrue(gen4.every((node) => node.depthOffset === 4));
+        assert.isTrue(gen4.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.depthOffset === 4));
+
+        const gen5 = gen4.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+        assert.isTrue(gen5.every((node) => node.depthOffset === 5));
+        assert.isTrue(gen5.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.depthOffset === 5));
+    })
 });
 
