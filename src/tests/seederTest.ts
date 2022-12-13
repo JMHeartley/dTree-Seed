@@ -812,7 +812,7 @@ describe('seed', () => {
             assert.isTrue(gen5.every((node) => node.depthOffset === 5));
             assert.isTrue(gen5.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.class === spouse?.id.toString()));
         })
-        it('gets no callback for class, class for each node should be an empty string', () => {
+        it('gets no callback for class, class should be an empty string for each node', () => {
             // Act
             const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, {});
 
@@ -871,7 +871,7 @@ describe('seed', () => {
             assert.isTrue(gen5.every((node) => node.depthOffset === 5));
             assert.isTrue(gen5.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.textClass === spouse?.id.toString()));
         })
-        it('gets no callback for textClass, textClass for each node should be an empty string', () => {
+        it('gets no callback for textClass, textClass should be an empty string for each node', () => {
             // Act
             const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, {});
 
