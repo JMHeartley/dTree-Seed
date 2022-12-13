@@ -13,7 +13,8 @@
                     "class": "",
                     "textClass": "",
                     "depthOffset": 1,
-                    "marriages": []
+                    "marriages": [],
+                    "extra": {}
                 },
                 "children": [
                     {
@@ -30,7 +31,8 @@
                                     "class": "",
                                     "textClass": "",
                                     "depthOffset": 2,
-                                    "marriages": []
+                                    "marriages": [],
+                                    "extra": {}
                                 },
                                 "children": [
                                     {
@@ -39,7 +41,8 @@
                                         "class": "",
                                         "textClass": "",
                                         "depthOffset": 3,
-                                        "marriages": []
+                                        "marriages": [],
+                                        "extra": {}
                                     },
                                     {
                                         "id": 6,
@@ -47,7 +50,8 @@
                                         "class": "",
                                         "textClass": "",
                                         "depthOffset": 3,
-                                        "marriages": []
+                                        "marriages": [],
+                                        "extra": {}
                                     },
                                     {
                                         "id": 7,
@@ -55,7 +59,8 @@
                                         "class": "",
                                         "textClass": "",
                                         "depthOffset": 3,
-                                        "marriages": []
+                                        "marriages": [],
+                                        "extra": {}
                                     },
                                     {
                                         "id": 8,
@@ -63,7 +68,8 @@
                                         "class": "",
                                         "textClass": "",
                                         "depthOffset": 3,
-                                        "marriages": []
+                                        "marriages": [],
+                                        "extra": {}
                                     },
                                     {
                                         "id": 9,
@@ -71,7 +77,8 @@
                                         "class": "",
                                         "textClass": "",
                                         "depthOffset": 3,
-                                        "marriages": []
+                                        "marriages": [],
+                                        "extra": {}
                                     },
                                     {
                                         "id": 10,
@@ -79,14 +86,17 @@
                                         "class": "",
                                         "textClass": "",
                                         "depthOffset": 3,
-                                        "marriages": []
+                                        "marriages": [],
+                                        "extra": {}
                                     }
                                 ]
                             }
-                        ]
+                        ],
+                        "extra": {}
                     }
                 ]
             }
-        ]
+        ],
+        "extra": {}
     }
 ]
