@@ -1,68 +1,192 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const treeNode_1 = __importDefault(require("./treeNode"));
+const treeNodeMarriage_1 = __importDefault(require("./treeNodeMarriage"));
 let dTreeSeeder = {
-    _data: new Array(),
-    _getWithParentIds: function (id) {
-        const member = this._data.find((member) => member.id === id);
+    _generationLimit: 100,
+    _getWithParentIds: function (data, id) {
+        const member = data.find((member) => member.id === id);
         if (member === undefined) {
             throw new Error(`Member with id (${id}) was not found`);
         }
         return member;
     },
-    _getWithoutParentIds: function (id) {
-        let member = this._getWithParentIds(id);
+    _getWithoutParentIds: function (data, id) {
+        let member = this._getWithParentIds(data, id);
         member.parent1Id = null;
         member.parent2Id = null;
         return member;
     },
-    seed: function (data, targetId) {
-        this._data = data;
-        if (targetId === undefined) {
-            return [];
-        }
-        let members = new Array();
-        const target = this._getWithParentIds(targetId);
-        members.push(target);
-        const hasParent1 = target.parent1Id !== null;
-        const hasParent2 = target.parent2Id !== null;
-        if (hasParent1) {
-            const parent1 = this._getWithoutParentIds(target.parent1Id);
-            members.push(parent1);
-        }
-        if (hasParent2) {
-            const parent2 = this._getWithoutParentIds(target.parent2Id);
-            members.push(parent2);
-        }
-        if (hasParent1 || hasParent2) {
-            const siblingIds = this._data.filter((member) => ((member.parent1Id === target.parent1Id || member.parent2Id === target.parent2Id)
-                || (member.parent1Id === target.parent2Id || member.parent2Id === target.parent1Id))
-                && member.id !== target.id)
-                .map((member) => member.id);
-            siblingIds.forEach(id => {
-                const sibling = this._getWithParentIds(id);
-                members.push(sibling);
-            });
-        }
-        const childIds = this._data.filter((member) => member.parent1Id === target.id || member.parent2Id === target.id)
-            .map((member) => member.id);
-        if (childIds.length === 0) {
-            return members;
-        }
-        let children = new Array();
-        childIds.forEach(id => {
-            const child = this._getWithParentIds(id);
-            children.push(child);
-            members.push(child);
-        });
-        const otherParentIds = children.map((member) => member.parent1Id === target.id
-            ? member.parent2Id
-            : member.parent1Id);
-        const uniqueOtherParentIds = otherParentIds.filter((value, index) => index === otherParentIds.indexOf(value));
-        uniqueOtherParentIds.forEach(id => {
-            const otherParent = this._getWithoutParentIds(id);
-            members.push(otherParent);
+    _get: function (data, ids, options) {
+        const members = new Array();
+        ids.forEach(id => {
+            const member = (options.preserveParentIds)
+                ? this._getWithParentIds(data, id)
+                : this._getWithoutParentIds(data, id);
+            members.push(member);
         });
         return members;
+    },
+    _getChildren: function (data, ...parents) {
+        var _a;
+        const childIds = data.filter((member) => parents.some((parent) => parent.id === member.parent1Id || parent.id === member.parent2Id))
+            .map((member) => member.id);
+        if (childIds.length === 0) {
+            return [];
+        }
+        const children = this._get(data, childIds, { preserveParentIds: true });
+        const parentDepthOffset = (_a = parents.find((parent) => parent.depthOffset !== undefined)) === null || _a === void 0 ? void 0 : _a.depthOffset;
+        if (parentDepthOffset !== undefined) {
+            children.forEach((child) => child.depthOffset = parentDepthOffset + 1);
+        }
+        return children;
+    },
+    _getOtherParents: function (data, children, ...parents) {
+        var _a;
+        const parentIds = parents.map((parent) => parent.id);
+        const otherParentIds = children.map((child) => parentIds.includes(child.parent1Id)
+            ? child.parent2Id
+            : child.parent1Id);
+        const uniqueOtherParentIds = otherParentIds.filter((value, index) => index === otherParentIds.indexOf(value));
+        const otherParents = this._get(data, uniqueOtherParentIds, { preserveParentIds: false });
+        const parentDepthOffset = (_a = parents.find((parent) => parent.depthOffset !== undefined)) === null || _a === void 0 ? void 0 : _a.depthOffset;
+        if (parentDepthOffset !== undefined) {
+            otherParents.forEach((otherParent) => otherParent.depthOffset = parentDepthOffset);
+        }
+        return otherParents;
+    },
+    _getRelatives: function (data, targetId) {
+        if (data.length === 0) {
+            throw new Error("Data cannot be empty");
+        }
+        if (targetId === undefined) {
+            throw new Error("TargetId cannot be undefined");
+        }
+        const depthOffsetStart = 1;
+        const members = new Array();
+        const target = this._getWithParentIds(data, targetId);
+        const hasParent1 = target.parent1Id !== null;
+        const hasParent2 = target.parent2Id !== null;
+        if (!hasParent1 && !hasParent2) {
+            target.depthOffset = depthOffsetStart;
+        }
+        else {
+            target.depthOffset = depthOffsetStart + 1;
+            const parentIds = new Array();
+            if (hasParent1) {
+                parentIds.push(target.parent1Id);
+            }
+            if (hasParent2) {
+                parentIds.push(target.parent2Id);
+            }
+            const parents = this._get(data, parentIds, { preserveParentIds: false });
+            parents.forEach((parent) => parent.depthOffset = depthOffsetStart);
+            members.push(...parents);
+            const siblingIds = data.filter((member) => ((member.parent1Id === target.parent1Id || member.parent2Id === target.parent2Id)
+                || (member.parent1Id === target.parent2Id || member.parent2Id === target.parent1Id))
+                && member.id !== target.id).map((member) => member.id);
+            const siblings = this._get(data, siblingIds, { preserveParentIds: true });
+            siblings.forEach((sibling) => sibling.depthOffset = depthOffsetStart + 1);
+            members.push(...siblings);
+        }
+        members.push(target);
+        const children = this._getChildren(data, target);
+        members.push(...children);
+        if (children.length === 0) {
+            return members;
+        }
+        const otherParents = this._getOtherParents(data, children, target);
+        members.push(...otherParents);
+        let nextGeneration = children;
+        do {
+            const nextGenerationChildren = this._getChildren(data, ...nextGeneration);
+            members.push(...nextGenerationChildren);
+            const nextGenerationOtherParents = this._getOtherParents(data, nextGenerationChildren, ...nextGeneration);
+            members.push(...nextGenerationOtherParents);
+            nextGeneration = nextGenerationChildren;
+        } while (nextGeneration.length > 0);
+        return members;
+    },
+    _combineIntoMarriages: function (data, options) {
+        if (data.length === 1) {
+            return data.map((member) => new treeNode_1.default(member));
+        }
+        let parentGroups = data.map((member) => {
+            return [member.parent1Id, member.parent2Id].filter((id) => id !== null);
+        }).filter((group) => group.length > 0);
+        parentGroups = [...new Set(parentGroups
+                .map((group) => JSON.stringify(group.sort())))]
+            .map((group) => JSON.parse(group));
+        if (parentGroups.length === 0) {
+            throw new Error("At least one member must have at least one parent");
+        }
+        const treeNodes = new Array();
+        parentGroups.forEach((currentParentGroup) => {
+            const nodeId = currentParentGroup[0];
+            const node = new treeNode_1.default(this._getWithParentIds(data, nodeId), options);
+            const nodeMarriages = parentGroups.filter((group) => group.includes(nodeId));
+            nodeMarriages.forEach((marriedCouple) => {
+                const index = parentGroups.indexOf(marriedCouple);
+                if (index !== parentGroups.indexOf(currentParentGroup)) {
+                    parentGroups.splice(index, 1);
+                }
+                const marriage = new treeNodeMarriage_1.default();
+                const spouseId = marriedCouple[1];
+                if (spouseId !== undefined) {
+                    marriage.spouse = new treeNode_1.default(this._getWithParentIds(data, spouseId), options);
+                }
+                marriage.children = data.filter((member) => {
+                    if (member.parent1Id !== null && member.parent2Id !== null) {
+                        return marriedCouple.includes(member.parent1Id)
+                            && marriedCouple.includes(member.parent2Id);
+                    }
+                    if (member.parent1Id !== null && member.parent2Id === null) {
+                        return marriedCouple.includes(member.parent1Id)
+                            && member.parent2Id === null;
+                    }
+                    if (member.parent1Id === null && member.parent2Id !== null) {
+                        return marriedCouple.includes(member.parent2Id)
+                            && member.parent1Id === null;
+                    }
+                    return false;
+                }).map((child) => new treeNode_1.default(child, options));
+                node.marriages.push(marriage);
+            });
+            treeNodes.push(node);
+        });
+        return treeNodes;
+    },
+    _coalesce: function (data) {
+        if (data.length === 0) {
+            throw new Error("Data cannot be empty");
+        }
+        if (data.length === 1) {
+            return data;
+        }
+        let count = 0;
+        while (data.length > 1) {
+            for (let index = 0; index < data.length; index++) {
+                const node = data[index];
+                const otherNodes = data.filter((otherNode) => otherNode !== node);
+                if (otherNodes.some(otherNode => otherNode.canInsertAsDescendant(node))) {
+                    data.splice(index, 1);
+                }
+            }
+            count++;
+            if (count > this._generationLimit) {
+                throw new Error(`Data contains multiple roots or spans more than ${this._generationLimit} generations.`);
+            }
+        }
+        return data;
+    },
+    seed: function (data, targetId, options) {
+        const members = this._getRelatives(data, targetId);
+        const marriages = this._combineIntoMarriages(members, options);
+        const rootNode = this._coalesce(marriages);
+        return JSON.stringify(rootNode);
     }
 };
 exports.default = dTreeSeeder;

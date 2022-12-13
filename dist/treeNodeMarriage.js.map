@@ -1,0 +1,1 @@
+{"version":3,"file":"treeNodeMarriage.js","sourceRoot":"","sources":["../src/treeNodeMarriage.ts"],"names":[],"mappings":";;AAEA,MAAM,gBAAgB;IAClB;QACI,IAAI,CAAC,MAAM,GAAG,IAAI,CAAC;QACnB,IAAI,CAAC,QAAQ,GAAG,IAAI,KAAK,EAAY,CAAC;IAC1C,CAAC;CAGJ;AAED,kBAAe,gBAAgB,CAAC"}
