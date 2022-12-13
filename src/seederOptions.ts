@@ -1,8 +1,8 @@
-import TreeNode from "./treeNode";
+import Member from "./member";
 
 interface SeederOptions {
-    class?: (node: TreeNode) => string;
-    textClass?: (node: TreeNode) => string;
+    class?: (member: Member) => string;
+    textClass?: (member: Member) => string;
 }
 
 export default SeederOptions;

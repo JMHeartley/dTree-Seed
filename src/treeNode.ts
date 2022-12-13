@@ -6,8 +6,8 @@ class TreeNode {
     constructor(member: Member, options?: SeederOptions) {
         this.id = member.id;
         this.name = member.name;
-        this.class = options?.class?.(this) ?? "";
-        this.textClass = options?.textClass?.(this) ?? "";
+        this.class = options?.class?.(member) ?? "";
+        this.textClass = options?.textClass?.(member) ?? "";
         this.depthOffset = member.depthOffset ?? -1;
         this.marriages = new Array<TreeNodeMarriage>();
     }
