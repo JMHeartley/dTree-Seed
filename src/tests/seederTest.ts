@@ -778,7 +778,7 @@ describe('seed', () => {
         assert.isTrue(gen5.every((node) => node.depthOffset === 5));
         assert.isTrue(gen5.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.depthOffset === 5));
     })
-    describe('take options object', () => {
+    describe('gets SeederOptions object', () => {
         it('gets callback for class, populates class for each node', () => {
             // Arrange
             const callback = (node: TreeNode) => node.id.toString();
