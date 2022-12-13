@@ -4,6 +4,7 @@
         "name": "Niclas Superlongsurname",
         "depthOffset": 1,
         "class": "",
+        "textClass": "",
         "marriages": [
             {
                 "spouse": {
@@ -11,6 +12,7 @@
                     "name": "Iliana",
                     "depthOffset": 1,
                     "class": "",
+                    "textClass": "",
                     "marriages": []
                 },
                 "children": [
@@ -19,6 +21,7 @@
                         "name": "James",
                         "depthOffset": 2,
                         "class": "",
+                        "textClass": "",
                         "marriages": [
                             {
                                 "spouse": {
@@ -26,6 +29,7 @@
                                     "name": "Alexandra",
                                     "depthOffset": 2,
                                     "class": "",
+                                    "textClass": "",
                                     "marriages": []
                                 },
                                 "children": [
@@ -34,6 +38,7 @@
                                         "name": "Eric",
                                         "depthOffset": 3,
                                         "class": "",
+                                        "textClass": "",
                                         "marriages": []
                                     },
                                     {
@@ -41,6 +46,7 @@
                                         "name": "Jane",
                                         "depthOffset": 3,
                                         "class": "",
+                                        "textClass": "",
                                         "marriages": []
                                     },
                                     {
@@ -48,6 +54,7 @@
                                         "name": "Jasper",
                                         "depthOffset": 3,
                                         "class": "",
+                                        "textClass": "",
                                         "marriages": []
                                     },
                                     {
@@ -55,6 +62,7 @@
                                         "name": "Emma",
                                         "depthOffset": 3,
                                         "class": "",
+                                        "textClass": "",
                                         "marriages": []
                                     },
                                     {
@@ -62,6 +70,7 @@
                                         "name": "Julia",
                                         "depthOffset": 3,
                                         "class": "",
+                                        "textClass": "",
                                         "marriages": []
                                     },
                                     {
@@ -69,6 +78,7 @@
                                         "name": "Jessica",
                                         "depthOffset": 3,
                                         "class": "",
+                                        "textClass": "",
                                         "marriages": []
                                     }
                                 ]

@@ -8,12 +8,14 @@ class TreeNode {
         this.name = member.name;
         this.depthOffset = member.depthOffset ?? -1;
         this.class = options?.class?.(this) ?? "";
+        this.textClass = options?.textClass?.(this) ?? "";
         this.marriages = new Array<TreeNodeMarriage>();
     }
     id: number;
     name: string;
     depthOffset: number;
     class: string;
+    textClass: string;
     marriages: TreeNodeMarriage[];
     canInsertAsDescendant(descendent: TreeNode): boolean {
         if (this.id === descendent.id) {
