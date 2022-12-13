@@ -1,6 +1,7 @@
 import Member from "./member";
 import TreeNode from "./treeNode";
 import TreeNodeMarriage from "./treeNodeMarriage";
+import SeederOptions from "./seederOptions";
 
 let dTreeSeeder = {
     _generationLimit: 100,
@@ -133,7 +134,7 @@ let dTreeSeeder = {
 
         return members;
     },
-    _combineIntoMarriages: function (data: Member[]): TreeNode[] {
+    _combineIntoMarriages: function (data: Member[], options?: SeederOptions): TreeNode[] {
         if (data.length === 1) {
             return data.map((member) => new TreeNode(member));
         }
@@ -155,7 +156,7 @@ let dTreeSeeder = {
         const treeNodes = new Array<TreeNode>();
         parentGroups.forEach((currentParentGroup) => {
             const nodeId = currentParentGroup[0];
-            const node = new TreeNode(this._getWithParentIds(data, nodeId));
+            const node = new TreeNode(this._getWithParentIds(data, nodeId), options);
 
             const nodeMarriages = parentGroups.filter((group) => group.includes(nodeId));
             nodeMarriages.forEach((marriedCouple) => {
@@ -172,7 +173,7 @@ let dTreeSeeder = {
 
                 const spouseId = marriedCouple[1];
                 if (spouseId !== undefined) {
-                    marriage.spouse = new TreeNode(this._getWithParentIds(data, spouseId));
+                    marriage.spouse = new TreeNode(this._getWithParentIds(data, spouseId), options);
                 }
 
                 marriage.children = data.filter((member) => {
@@ -189,7 +190,7 @@ let dTreeSeeder = {
                             && member.parent1Id === null;
                     }
                     return false;
-                }).map((child) => new TreeNode(child));
+                }).map((child) => new TreeNode(child, options));
 
                 node.marriages.push(marriage);
             });
@@ -226,9 +227,9 @@ let dTreeSeeder = {
         }
         return data;
     },
-    seed: function (data: Member[], targetId?: number): string {
+    seed: function (data: Member[], targetId?: number, options?: SeederOptions): string {
         const members = this._getRelatives(data, targetId);
-        const marriages = this._combineIntoMarriages(members);
+        const marriages = this._combineIntoMarriages(members, options);
         const rootNode = this._coalesce(marriages);
         return JSON.stringify(rootNode);
     }

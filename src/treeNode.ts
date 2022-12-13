@@ -1,16 +1,19 @@
 import Member from "./member";
 import TreeNodeMarriage from "./treeNodeMarriage";
+import SeederOptions from "./seederOptions";
 
 class TreeNode {
-    constructor(member: Member) {
+    constructor(member: Member, options?: SeederOptions) {
         this.id = member.id;
         this.name = member.name;
         this.depthOffset = member.depthOffset ?? -1;
+        this.class = options?.class?.(this) ?? "";
         this.marriages = new Array<TreeNodeMarriage>();
     }
     id: number;
     name: string;
     depthOffset: number;
+    class: string;
     marriages: TreeNodeMarriage[];
     canInsertAsDescendant(descendent: TreeNode): boolean {
         if (this.id === descendent.id) {

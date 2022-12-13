@@ -3,6 +3,7 @@ import Chai from 'chai';
 const assert = Chai.assert;
 
 import Seeder from '../seeder';
+import SeederOptions from '../seederOptions';
 import TreeNode from '../treeNode';
 import TreeNodeMarriage from '../treeNodeMarriage';
 
@@ -776,6 +777,68 @@ describe('seed', () => {
         const gen5 = gen4.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
         assert.isTrue(gen5.every((node) => node.depthOffset === 5));
         assert.isTrue(gen5.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.depthOffset === 5));
+    })
+    describe('take options object', () => {
+        it('gets callback for class, populates class for each node', () => {
+            // Arrange
+            const callback = (node: TreeNode) => node.id.toString();
+            const options: SeederOptions = {
+                class: callback
+            };
+
+            // Act
+            const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, options);
+
+            // Assert
+            const parsedResult = JSON.parse(result);
+            const gen1: TreeNode[] = parsedResult;
+
+            assert.isTrue(gen1.every((node) => node.class === callback(node)));
+            assert.isTrue(gen1.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.class == callback(spouse as TreeNode)));
+
+            const gen2 = gen1.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+            assert.isTrue(gen2.every((node) => node.depthOffset === 2));
+            assert.isTrue(gen2.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.class === callback(spouse as TreeNode)));
+
+            const gen3 = gen2.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+            assert.isTrue(gen3.every((node) => node.depthOffset === 3));
+            assert.isTrue(gen3.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.class === callback(spouse as TreeNode)));
+
+            const gen4 = gen3.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+            assert.isTrue(gen4.every((node) => node.depthOffset === 4));
+            assert.isTrue(gen4.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.class === callback(spouse as TreeNode)));
+
+            const gen5 = gen4.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+            assert.isTrue(gen5.every((node) => node.depthOffset === 5));
+            assert.isTrue(gen5.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.class === callback(spouse as TreeNode)));
+        })
+        it('gets no callback for class, class for each node should be an empty string', () => {
+            // Act
+            const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, {});
+
+            // Assert
+            const parsedResult = JSON.parse(result);
+            const gen1: TreeNode[] = parsedResult;
+
+            assert.isTrue(gen1.every((node) => node.class === ''));
+            assert.isTrue(gen1.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.class == ''));
+
+            const gen2 = gen1.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+            assert.isTrue(gen2.every((node) => node.depthOffset === 2));
+            assert.isTrue(gen2.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.class === ''));
+
+            const gen3 = gen2.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+            assert.isTrue(gen3.every((node) => node.depthOffset === 3));
+            assert.isTrue(gen3.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.class === ''));
+
+            const gen4 = gen3.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+            assert.isTrue(gen4.every((node) => node.depthOffset === 4));
+            assert.isTrue(gen4.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.class === ''));
+
+            const gen5 = gen4.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
+            assert.isTrue(gen5.every((node) => node.depthOffset === 5));
+            assert.isTrue(gen5.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.class === ''));
+        })
     })
 });
 
