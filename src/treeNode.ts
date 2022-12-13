@@ -6,16 +6,16 @@ class TreeNode {
     constructor(member: Member, options?: SeederOptions) {
         this.id = member.id;
         this.name = member.name;
-        this.depthOffset = member.depthOffset ?? -1;
         this.class = options?.class?.(this) ?? "";
         this.textClass = options?.textClass?.(this) ?? "";
+        this.depthOffset = member.depthOffset ?? -1;
         this.marriages = new Array<TreeNodeMarriage>();
     }
     id: number;
     name: string;
-    depthOffset: number;
     class: string;
     textClass: string;
+    depthOffset: number;
     marriages: TreeNodeMarriage[];
     canInsertAsDescendant(descendent: TreeNode): boolean {
         if (this.id === descendent.id) {
