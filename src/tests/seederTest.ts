@@ -654,8 +654,8 @@ describe('seed', () => {
         const result = Seeder.seed(dTreeSampleMockMembers.getAll(), dTreeSampleMockMembers.NiclasSuperLongsurname.id);
 
         // Assert
-        assert.isString(result);
-        assert.equal(result, JSON.stringify(dTreeSampleData));
+        assert.typeOf<TreeNode[]>(result, 'array');
+        assert.equal(JSON.stringify(result), JSON.stringify(dTreeSampleData));
     })
     describe('target has no parents', () => {
         it('target should have depthOffset 1', () => {
@@ -666,8 +666,7 @@ describe('seed', () => {
             const result = Seeder.seed(testData, targetId);
 
             // Assert
-            const parsedResult = JSON.parse(result);
-            const gen1: TreeNode[] = parsedResult;
+            const gen1: TreeNode[] = result;
             assert.include(gen1.map(node => node.id), targetId);
             assert.isTrue(gen1.every((node) => node.depthOffset === 1));
         })
@@ -680,8 +679,7 @@ describe('seed', () => {
             const result = Seeder.seed(testData, targetId);
 
             // Assert
-            const parsedResult = JSON.parse(result);
-            const gen1: TreeNode[] = parsedResult;
+            const gen1: TreeNode[] = result;
             assert.include(gen1.flatMap((node) => node.marriages.map((marriage) => marriage.spouse?.id)), spouseId);
             const targetDepthOffset = gen1.find(node => node.id === targetId)?.depthOffset as number;
             assert.isTrue(gen1.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.depthOffset === targetDepthOffset));
@@ -695,8 +693,7 @@ describe('seed', () => {
             const result = Seeder.seed(testData, targetId);
 
             // Assert
-            const parsedResult = JSON.parse(result);
-            const gen1: TreeNode[] = parsedResult;
+            const gen1: TreeNode[] = result;
             const gen2 = gen1.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
             assert.include(gen2.map((node) => node.id), childId);
             const targetDepthOffset = gen1.find(node => node.id === targetId)?.depthOffset as number;
@@ -712,8 +709,7 @@ describe('seed', () => {
             const result = Seeder.seed(testData, targetId);
 
             // Assert
-            const parsedResult = JSON.parse(result);
-            const gen1: TreeNode[] = parsedResult;
+            const gen1: TreeNode[] = result;
             const gen2 = gen1.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
             assert.include(gen2.map(node => node.id), targetId);
             assert.isTrue(gen2.every((node) => node.depthOffset === 2));
@@ -727,8 +723,7 @@ describe('seed', () => {
             const result = Seeder.seed(testData, targetId);
 
             // Assert
-            const parsedResult = JSON.parse(result);
-            const gen1: TreeNode[] = parsedResult;
+            const gen1: TreeNode[] = result;
             const gen2 = gen1.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
             assert.include(gen2.flatMap((node) => node.marriages.map((marriage) => marriage.spouse?.id)), spouseId);
             const targetDepthOffset = gen2.find(node => node.id === targetId)?.depthOffset as number;
@@ -743,8 +738,7 @@ describe('seed', () => {
             const result = Seeder.seed(testData, targetId);
 
             // Assert
-            const parsedResult = JSON.parse(result);
-            const gen1: TreeNode[] = parsedResult;
+            const gen1: TreeNode[] = result;
             const gen2 = gen1.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
             const gen3 = gen2.flatMap((node) => node.marriages.flatMap((marriage) => marriage.children));
             assert.include(gen3.map((node) => node.id), childId);
@@ -757,8 +751,7 @@ describe('seed', () => {
         const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id);
 
         // Assert
-        const parsedResult = JSON.parse(result);
-        const gen1: TreeNode[] = parsedResult;
+        const gen1: TreeNode[] = result;
 
         assert.isTrue(gen1.every((node) => node.depthOffset === 1));
         assert.isTrue(gen1.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.depthOffset == 1));
@@ -790,8 +783,7 @@ describe('seed', () => {
             const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, options);
 
             // Assert
-            const parsedResult = JSON.parse(result);
-            const gen1: TreeNode[] = parsedResult;
+            const gen1: TreeNode[] = result;
 
             assert.isTrue(gen1.every((node) => node.class === node?.id.toString()));
             assert.isTrue(gen1.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.class == spouse?.id.toString()));
@@ -817,8 +809,7 @@ describe('seed', () => {
             const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, {});
 
             // Assert
-            const parsedResult = JSON.parse(result);
-            const gen1: TreeNode[] = parsedResult;
+            const gen1: TreeNode[] = result;
 
             assert.isTrue(gen1.every((node) => node.class === ''));
             assert.isTrue(gen1.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.class == ''));
@@ -849,8 +840,7 @@ describe('seed', () => {
             const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, options);
 
             // Assert
-            const parsedResult = JSON.parse(result);
-            const gen1: TreeNode[] = parsedResult;
+            const gen1: TreeNode[] = result;
 
             assert.isTrue(gen1.every((node) => node.textClass === node.id.toString()));
             assert.isTrue(gen1.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.textClass == spouse?.id.toString()));
@@ -876,8 +866,7 @@ describe('seed', () => {
             const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, {});
 
             // Assert
-            const parsedResult = JSON.parse(result);
-            const gen1: TreeNode[] = parsedResult;
+            const gen1: TreeNode[] = result;
 
             assert.isTrue(gen1.every((node) => node.textClass === ''));
             assert.isTrue(gen1.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.textClass == ''));
@@ -910,8 +899,7 @@ describe('seed', () => {
             const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, options);
 
             // Assert
-            const parsedResult = JSON.parse(result);
-            const gen1: TreeNode[] = parsedResult;
+            const gen1: TreeNode[] = result;
 
             assert.isTrue(gen1.every((node) => node.extra.toString() === { id: node.id.toString() }.toString()));
             assert.isTrue(gen1.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) => spouse?.extra.toString() === { id: spouse?.id.toString() }.toString()));
@@ -937,8 +925,7 @@ describe('seed', () => {
             const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, {});
 
             // Assert
-            const parsedResult = JSON.parse(result);
-            const gen1: TreeNode[] = parsedResult;
+            const gen1: TreeNode[] = result;
 
             assert.isTrue(gen1.every((node) => Object.keys(node.extra).length === 0));
             assert.isTrue(gen1.flatMap((node) => node.marriages.map((marriage) => marriage.spouse)).every((spouse) =>
