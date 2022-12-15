@@ -1,6 +1,6 @@
-import Member from "../../member";
+/// <reference path="../../member.ts" />
 
-class dTreeMockMembers implements Member {
+class dTreeMockMembers implements dSeeder.Member {
     constructor(member: any) {
         this.id = member.id;
         this.name = member.name;

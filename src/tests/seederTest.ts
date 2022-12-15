@@ -1,27 +1,33 @@
+/// <reference path="../seeder.ts" />
+import Member = dSeeder.Member;
+import TreeNode = dSeeder.TreeNode;
+import TreeNodeMarriage = dSeeder.TreeNodeMarriage;
+import SeederOptions = dSeeder.SeederOptions;
+
+//TODO: replace with namespace import or replace testing framework
 import 'mocha';
 import Chai from 'chai';
 const assert = Chai.assert;
 
-import Seeder from '../seeder';
-import SeederOptions from '../seederOptions';
-import Member from '../member';
-import TreeNode from '../treeNode';
-import TreeNodeMarriage from '../treeNodeMarriage';
-
+//TODO: convert to namespace import
 import MockMembers from './data/mockMembers';
 const testData = MockMembers.getAll();
 
-import dTreeSampleData from './data/dTreeSampleData.json';
+let dTreeSampleData: any;
+fetch('./data/dTreeSampleData.json')
+    .then((response) => dTreeSampleData = response.json());
+
+//TODO: convert to namespace import
 import dTreeSampleMockMembers from './data/dTreeSampleMockMembers';
 
-describe('_getRelatives', () => {
+describe('_private._getRelatives', () => {
     it('gets empty array, should throw error', () => {
         // Assert
-        assert.throws(() => Seeder._getRelatives([]));
+        assert.throws(() => dSeeder._private._getRelatives([]));
     })
     it('gets no targetId, should return an empty array', () => {
         // Assert
-        assert.throws(() => Seeder._getRelatives(testData));
+        assert.throws(() => dSeeder._private._getRelatives(testData));
     })
     describe('gets targetId', () => {
         it('target is not in data, should throw error', () => {
@@ -29,7 +35,7 @@ describe('_getRelatives', () => {
             const targetId = 999;
 
             // Assert
-            assert.throw(() => Seeder._getRelatives(testData, targetId));
+            assert.throw(() => dSeeder._private._getRelatives(testData, targetId));
         })
         describe('target is in data', () => {
             it('should return array with no duplicates', () => {
@@ -37,7 +43,7 @@ describe('_getRelatives', () => {
                 const targetId = MockMembers.LyarraStark.id;
 
                 // Act
-                const result = Seeder._getRelatives(testData, targetId);
+                const result = dSeeder._private._getRelatives(testData, targetId);
 
                 // Assert
                 const resultIds = result.map((member) => member.id);
@@ -50,7 +56,7 @@ describe('_getRelatives', () => {
                 const targetId = MockMembers.EdardStark.id;
 
                 // Act
-                const result = Seeder._getRelatives(testData, targetId);
+                const result = dSeeder._private._getRelatives(testData, targetId);
 
                 // Assert
                 const target = result.find((member) => member.id === targetId);
@@ -64,7 +70,7 @@ describe('_getRelatives', () => {
                     const targetId = MockMembers.OnlyHasParent1.id;
 
                     // Act
-                    const result = Seeder._getRelatives(testData, targetId);
+                    const result = dSeeder._private._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -82,7 +88,7 @@ describe('_getRelatives', () => {
                     const targetId = MockMembers.OnlyHasParent2.id;
 
                     // Act
-                    const result = Seeder._getRelatives(testData, targetId);
+                    const result = dSeeder._private._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -99,7 +105,7 @@ describe('_getRelatives', () => {
                     const targetId = MockMembers.LyannaStark.id;
 
                     // Act
-                    const result = Seeder._getRelatives(testData, targetId);
+                    const result = dSeeder._private._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -118,14 +124,14 @@ describe('_getRelatives', () => {
                     const targetId = MockMembers.Parent1IsNotInData.id;
 
                     // Assert
-                    assert.throw(() => Seeder._getRelatives(testData, targetId));
+                    assert.throw(() => dSeeder._private._getRelatives(testData, targetId));
                 })
                 it('parent2 is not in data, should throw error', () => {
                     // Arrange
                     const targetId = MockMembers.Parent2IsNotInData.id;
 
                     // Assert
-                    assert.throw(() => Seeder._getRelatives(testData, targetId));
+                    assert.throw(() => dSeeder._private._getRelatives(testData, targetId));
                 })
             })
             describe('has siblings', () => {
@@ -134,7 +140,7 @@ describe('_getRelatives', () => {
                     const targetId = MockMembers.Child.id;
 
                     // Act
-                    const result = Seeder._getRelatives(testData, targetId);
+                    const result = dSeeder._private._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -149,7 +155,7 @@ describe('_getRelatives', () => {
                     const targetId = MockMembers.Child.id;
 
                     // Act
-                    const result = Seeder._getRelatives(testData, targetId);
+                    const result = dSeeder._private._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -163,7 +169,7 @@ describe('_getRelatives', () => {
                     const targetId = MockMembers.Child.id;
 
                     // Act
-                    const result = Seeder._getRelatives(testData, targetId);
+                    const result = dSeeder._private._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -186,7 +192,7 @@ describe('_getRelatives', () => {
                     const targetId = MockMembers.LyarraStark.id;
 
                     // Act
-                    const result = Seeder._getRelatives(testData, targetId);
+                    const result = dSeeder._private._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -206,7 +212,7 @@ describe('_getRelatives', () => {
                     const targetId = MockMembers.EdardStark.id;
 
                     // Act
-                    const result = Seeder._getRelatives(testData, targetId);
+                    const result = dSeeder._private._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -221,14 +227,14 @@ describe('_getRelatives', () => {
                     const targetId = MockMembers.Parent1IsNotInData.id;
 
                     // Assert
-                    assert.throw(() => Seeder._getRelatives(testData, targetId));
+                    assert.throw(() => dSeeder._private._getRelatives(testData, targetId));
                 })
                 it('other parent (parent2) is not in data, should throw error', () => {
                     // Arrange
                     const targetId = MockMembers.Parent2IsNotInData.id;
 
                     // Assert
-                    assert.throw(() => Seeder._getRelatives(testData, targetId));
+                    assert.throw(() => dSeeder._private._getRelatives(testData, targetId));
                 })
             })
             describe('has grandchildren', () => {
@@ -237,7 +243,7 @@ describe('_getRelatives', () => {
                     const targetId = MockMembers.LyarraStark.id;
 
                     // Act
-                    const result = Seeder._getRelatives(testData, targetId);
+                    const result = dSeeder._private._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -252,7 +258,7 @@ describe('_getRelatives', () => {
                     const targetId = MockMembers.LyarraStark.id;
 
                     // Act
-                    const result = Seeder._getRelatives(testData, targetId);
+                    const result = dSeeder._private._getRelatives(testData, targetId);
 
                     // Assert
                     const resultIds = result.map((member) => member.id);
@@ -267,17 +273,17 @@ describe('_getRelatives', () => {
     })
 });
 
-describe('_combineIntoMarriages', () => {
+describe('_private._combineIntoMarriages', () => {
     it('gets empty array, should throw error', () => {
         // Assert
-        assert.throws(() => Seeder._combineIntoMarriages([]));
+        assert.throws(() => dSeeder._private._combineIntoMarriages([]));
     })
     it('gets 1 member, returns array of 1 treeNode', () => {
         // Arrange
         const members = [MockMembers.AryaStark];
 
         // Act
-        const result = Seeder._combineIntoMarriages(members);
+        const result = dSeeder._private._combineIntoMarriages(members);
 
         // Assert
         assert.isArray(result);
@@ -301,7 +307,7 @@ describe('_combineIntoMarriages', () => {
             }
         ];
         // Assert
-        assert.throw(() => Seeder._combineIntoMarriages(members));
+        assert.throw(() => dSeeder._private._combineIntoMarriages(members));
     })
     it('gets 1 child with 1 parent as parent1, returns array of 1 tree node with 1 marrige to no spouse and 1 child', () => {
         // Arrange
@@ -320,7 +326,7 @@ describe('_combineIntoMarriages', () => {
         const members = [parent, child];
 
         // Act
-        const result = Seeder._combineIntoMarriages(members);
+        const result = dSeeder._private._combineIntoMarriages(members);
 
         // Assert
         assert.isNull(result[0].marriages[0].spouse);
@@ -344,7 +350,7 @@ describe('_combineIntoMarriages', () => {
         const members = [parent, child];
 
         // Act
-        const result = Seeder._combineIntoMarriages(members);
+        const result = dSeeder._private._combineIntoMarriages(members);
 
         // Assert
         assert.isNull(result[0].marriages[0].spouse);
@@ -374,7 +380,7 @@ describe('_combineIntoMarriages', () => {
         const members = [parent1, parent2, child];
 
         // Act
-        const result = Seeder._combineIntoMarriages(members);
+        const result = dSeeder._private._combineIntoMarriages(members);
 
         // Assert
         assert.equal(result[0].marriages[0].spouse?.id, parent2.id);
@@ -417,7 +423,7 @@ describe('_combineIntoMarriages', () => {
         const members = [parent, spouse1, spouse2, child1, child2];
 
         // Act
-        const result = Seeder._combineIntoMarriages(members);
+        const result = dSeeder._private._combineIntoMarriages(members);
 
         // Assert
         assert.equal(result.length, 1);
@@ -458,7 +464,7 @@ describe('_combineIntoMarriages', () => {
         const members = [parent1, parent2, child1, child2];
 
         // Act
-        const result = Seeder._combineIntoMarriages(members);
+        const result = dSeeder._private._combineIntoMarriages(members);
 
         // Assert
         assert.equal(result.length, 1);
@@ -469,10 +475,10 @@ describe('_combineIntoMarriages', () => {
     })
 });
 
-describe('_coalesce', () => {
+describe('_private._coalesce', () => {
     it('gets empty array, should throw error', () => {
         // Assert
-        assert.throws(() => Seeder._coalesce([]));
+        assert.throws(() => dSeeder._private._coalesce([]));
     })
     it('gets 1 generation, should return valid tree', () => {
         // Arrange
@@ -488,7 +494,7 @@ describe('_coalesce', () => {
         node.marriages.push(marriage);
 
         // Assert
-        const result = Seeder._coalesce([node]);
+        const result = dSeeder._private._coalesce([node]);
 
         // Assert
         assert.equal(result.length, 1);
@@ -520,7 +526,7 @@ describe('_coalesce', () => {
         rickardStarkNode.marriages.push(rickardStarkMarriage);
 
         // Assert
-        const result = Seeder._coalesce([nedStarkNode, rickardStarkNode]);
+        const result = dSeeder._private._coalesce([nedStarkNode, rickardStarkNode]);
 
         // Assert
         assert.equal(result.length, 1);
@@ -547,7 +553,7 @@ describe('_coalesce', () => {
         gen2Node.marriages.push(gen2Marriage);
 
         // Act
-        const result = Seeder._coalesce([gen1Node, gen2Node]);
+        const result = dSeeder._private._coalesce([gen1Node, gen2Node]);
 
         // Assert
         assert.equal(result.length, 1);
@@ -593,7 +599,7 @@ describe('_coalesce', () => {
         gen5Node.marriages.push(gen5Marriage);
 
         // Assert
-        const result = Seeder._coalesce([gen1Node, gen2Node, gen3Node, gen4Node, gen5Node]);
+        const result = dSeeder._private._coalesce([gen1Node, gen2Node, gen3Node, gen4Node, gen5Node]);
 
         // Assert
         assert.equal(result.length, 1);
@@ -626,7 +632,7 @@ describe('_coalesce', () => {
         ];
 
         // Assert
-        assert.throws(() => Seeder._coalesce(nodes));
+        assert.throws(() => dSeeder._private._coalesce(nodes));
     })
     it('get duplicate tree nodes, should throw error', () => {
         // Arrange
@@ -636,22 +642,22 @@ describe('_coalesce', () => {
         ];
 
         // Assert
-        assert.throws(() => Seeder._coalesce(nodes));
+        assert.throws(() => dSeeder._private._coalesce(nodes));
     })
 });
 
 describe('seed', () => {
     it('gets empty array, should throw error', () => {
         // Assert
-        assert.throws(() => Seeder.seed([]));
+        assert.throws(() => dSeeder.seed([]));
     })
     it('gets no targetId, should throw error', () => {
         // Assert
-        assert.throws(() => Seeder.seed([MockMembers.AryaStark]));
+        assert.throws(() => dSeeder.seed([MockMembers.AryaStark]));
     })
     it('gets dTree sample data, should return valid tree in JSON format', () => {
         // Act
-        const result = Seeder.seed(dTreeSampleMockMembers.getAll(), dTreeSampleMockMembers.NiclasSuperLongsurname.id);
+        const result = dSeeder.seed(dTreeSampleMockMembers.getAll(), dTreeSampleMockMembers.NiclasSuperLongsurname.id);
 
         // Assert
         assert.typeOf<TreeNode[]>(result, 'array');
@@ -663,7 +669,7 @@ describe('seed', () => {
             const targetId = MockMembers.Gen1Parent1.id;
 
             // Act
-            const result = Seeder.seed(testData, targetId);
+            const result = dSeeder.seed(testData, targetId);
 
             // Assert
             const gen1: TreeNode[] = result;
@@ -676,7 +682,7 @@ describe('seed', () => {
             const spouseId = MockMembers.Gen1Parent2.id;
 
             // Act
-            const result = Seeder.seed(testData, targetId);
+            const result = dSeeder.seed(testData, targetId);
 
             // Assert
             const gen1: TreeNode[] = result;
@@ -690,7 +696,7 @@ describe('seed', () => {
             const childId = MockMembers.Gen1ChildGen2Parent2.id;
 
             // Act
-            const result = Seeder.seed(testData, targetId);
+            const result = dSeeder.seed(testData, targetId);
 
             // Assert
             const gen1: TreeNode[] = result;
@@ -706,7 +712,7 @@ describe('seed', () => {
             const targetId = MockMembers.Gen1ChildGen2Parent2.id;
 
             // Act
-            const result = Seeder.seed(testData, targetId);
+            const result = dSeeder.seed(testData, targetId);
 
             // Assert
             const gen1: TreeNode[] = result;
@@ -720,7 +726,7 @@ describe('seed', () => {
             const spouseId = MockMembers.Gen2Parent1.id;
 
             // Act
-            const result = Seeder.seed(testData, targetId);
+            const result = dSeeder.seed(testData, targetId);
 
             // Assert
             const gen1: TreeNode[] = result;
@@ -735,7 +741,7 @@ describe('seed', () => {
             const childId = MockMembers.Gen2ChildGen3Parent2.id;
 
             // Act
-            const result = Seeder.seed(testData, targetId);
+            const result = dSeeder.seed(testData, targetId);
 
             // Assert
             const gen1: TreeNode[] = result;
@@ -748,7 +754,7 @@ describe('seed', () => {
     })
     it('should add depthOffset to each generation', () => {
         // Act
-        const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id);
+        const result = dSeeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id);
 
         // Assert
         const gen1: TreeNode[] = result;
@@ -780,7 +786,7 @@ describe('seed', () => {
             };
 
             // Act
-            const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, options);
+            const result = dSeeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, options);
 
             // Assert
             const gen1: TreeNode[] = result;
@@ -806,7 +812,7 @@ describe('seed', () => {
         })
         it('gets no callback for class, class should be an empty string for each node', () => {
             // Act
-            const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, {});
+            const result = dSeeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, {});
 
             // Assert
             const gen1: TreeNode[] = result;
@@ -837,7 +843,7 @@ describe('seed', () => {
             };
 
             // Act
-            const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, options);
+            const result = dSeeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, options);
 
             // Assert
             const gen1: TreeNode[] = result;
@@ -863,7 +869,7 @@ describe('seed', () => {
         })
         it('gets no callback for textClass, textClass should be an empty string for each node', () => {
             // Act
-            const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, {});
+            const result = dSeeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, {});
 
             // Assert
             const gen1: TreeNode[] = result;
@@ -896,7 +902,7 @@ describe('seed', () => {
             };
 
             // Act
-            const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, options);
+            const result = dSeeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, options);
 
             // Assert
             const gen1: TreeNode[] = result;
@@ -922,7 +928,7 @@ describe('seed', () => {
         })
         it('gets no callback for extra, extra should be an empty object for each node', () => {
             // Act
-            const result = Seeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, {});
+            const result = dSeeder.seed(testData, MockMembers.Gen1ChildGen2Parent2.id, {});
 
             // Assert
             const gen1: TreeNode[] = result;

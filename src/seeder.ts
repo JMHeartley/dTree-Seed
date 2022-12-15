@@ -1,36 +1,36 @@
-import Member from "./member";
-import TreeNode from "./treeNode";
-import TreeNodeMarriage from "./treeNodeMarriage";
-import SeederOptions from "./seederOptions";
+/// <reference path="member.ts" />
+/// <reference path="treeNode.ts" />
+/// <reference path="treeNodeMarriage.ts" />
+/// <reference path="seederOptions.ts" />
 
-let dTreeSeeder = {
-    _generationLimit: 100,
-    _getWithParentIds: function (data: Member[], id: number | null): Member {
+namespace dSeeder {
+    let _generationLimit = 100;
+    function _getWithParentIds(data: Member[], id: number | null): Member {
         const member = data.find((member) => member.id === id);
 
         if (member === undefined) {
             throw new Error(`Member with id (${id}) was not found`);
         }
         return member;
-    },
-    _getWithoutParentIds: function (data: Member[], id: number | null): Member {
-        let member = this._getWithParentIds(data, id);
+    }
+    function _getWithoutParentIds(data: Member[], id: number | null): Member {
+        let member = _getWithParentIds(data, id);
 
         member.parent1Id = null;
         member.parent2Id = null;
         return member;
-    },
-    _get: function (data: Member[], ids: number[], options: { preserveParentIds: boolean }): Member[] {
+    }
+    function _get(data: Member[], ids: number[], options: { preserveParentIds: boolean }): Member[] {
         const members = new Array<Member>();
         ids.forEach(id => {
             const member = (options.preserveParentIds)
-                ? this._getWithParentIds(data, id)
-                : this._getWithoutParentIds(data, id);
+                ? _getWithParentIds(data, id)
+                : _getWithoutParentIds(data, id);
             members.push(member);
         });
         return members;
-    },
-    _getChildren: function (data: Member[], ...parents: Member[]): Member[] {
+    }
+    function _getChildren(data: Member[], ...parents: Member[]): Member[] {
         const childIds = data.filter((member) =>
             parents.some((parent) => parent.id === member.parent1Id || parent.id === member.parent2Id))
             .map((member) => member.id);
@@ -38,15 +38,15 @@ let dTreeSeeder = {
         if (childIds.length === 0) {
             return [];
         }
-        const children = this._get(data, childIds, { preserveParentIds: true });
+        const children = _get(data, childIds, { preserveParentIds: true });
 
         const parentDepthOffset = parents.find((parent) => parent.depthOffset !== undefined)?.depthOffset;
         if (parentDepthOffset !== undefined) {
             children.forEach((child) => child.depthOffset = parentDepthOffset + 1);
         }
         return children;
-    },
-    _getOtherParents: function (data: Member[], children: Member[], ...parents: Member[]): Member[] {
+    }
+    function _getOtherParents(data: Member[], children: Member[], ...parents: Member[]): Member[] {
         const parentIds = parents.map((parent) => parent.id);
         const otherParentIds = children.map((child) =>
             parentIds.includes(child.parent1Id as number)
@@ -58,15 +58,15 @@ let dTreeSeeder = {
             index === otherParentIds.indexOf(value));
 
         // remove parentIds so their ancestors aren't included
-        const otherParents = this._get(data, uniqueOtherParentIds as number[], { preserveParentIds: false });
+        const otherParents = _get(data, uniqueOtherParentIds as number[], { preserveParentIds: false });
 
         const parentDepthOffset = parents.find((parent) => parent.depthOffset !== undefined)?.depthOffset;
         if (parentDepthOffset !== undefined) {
             otherParents.forEach((otherParent) => otherParent.depthOffset = parentDepthOffset);
         }
         return otherParents;
-    },
-    _getRelatives: function (data: Member[], targetId?: number): Member[] {
+    }
+    function _getRelatives(data: Member[], targetId?: number): Member[] {
         if (data.length === 0) {
             throw new Error("Data cannot be empty");
         }
@@ -79,7 +79,7 @@ let dTreeSeeder = {
         const depthOffsetStart = 1;
         const members = new Array<Member>();
 
-        const target = this._getWithParentIds(data, targetId);
+        const target = _getWithParentIds(data, targetId);
 
         const hasParent1 = target.parent1Id !== null;
         const hasParent2 = target.parent2Id !== null;
@@ -97,7 +97,7 @@ let dTreeSeeder = {
                 parentIds.push(target.parent2Id as number);
             }
             // remove parentIds so their ancestors aren't included
-            const parents = this._get(data, parentIds, { preserveParentIds: false });
+            const parents = _get(data, parentIds, { preserveParentIds: false });
             parents.forEach((parent) => parent.depthOffset = depthOffsetStart);
             members.push(...parents);
 
@@ -105,36 +105,36 @@ let dTreeSeeder = {
                 ((member.parent1Id === target.parent1Id || member.parent2Id === target.parent2Id)
                     || (member.parent1Id === target.parent2Id || member.parent2Id === target.parent1Id))
                 && member.id !== target.id).map((member) => member.id);
-            const siblings = this._get(data, siblingIds, { preserveParentIds: true });
+            const siblings = _get(data, siblingIds, { preserveParentIds: true });
             siblings.forEach((sibling) => sibling.depthOffset = depthOffsetStart + 1);
             members.push(...siblings);
         }
         members.push(target);
 
-        const children = this._getChildren(data, target);
+        const children = _getChildren(data, target);
         members.push(...children);
 
         if (children.length === 0) {
             return members;
         }
 
-        const otherParents = this._getOtherParents(data, children, target);
+        const otherParents = _getOtherParents(data, children, target);
         members.push(...otherParents);
 
         let nextGeneration = children;
         do {
-            const nextGenerationChildren = this._getChildren(data, ...nextGeneration);
+            const nextGenerationChildren = _getChildren(data, ...nextGeneration);
             members.push(...nextGenerationChildren);
 
-            const nextGenerationOtherParents = this._getOtherParents(data, nextGenerationChildren, ...nextGeneration);
+            const nextGenerationOtherParents = _getOtherParents(data, nextGenerationChildren, ...nextGeneration);
             members.push(...nextGenerationOtherParents);
 
             nextGeneration = nextGenerationChildren;
         } while (nextGeneration.length > 0);
 
         return members;
-    },
-    _combineIntoMarriages: function (data: Member[], options?: SeederOptions): TreeNode[] {
+    }
+    function _combineIntoMarriages(data: Member[], options?: SeederOptions): TreeNode[] {
         if (data.length === 1) {
             return data.map((member) => new TreeNode(member));
         }
@@ -156,7 +156,7 @@ let dTreeSeeder = {
         const treeNodes = new Array<TreeNode>();
         parentGroups.forEach((currentParentGroup) => {
             const nodeId = currentParentGroup[0];
-            const node = new TreeNode(this._getWithParentIds(data, nodeId), options);
+            const node = new TreeNode(_getWithParentIds(data, nodeId), options);
 
             const nodeMarriages = parentGroups.filter((group) => group.includes(nodeId));
             nodeMarriages.forEach((marriedCouple) => {
@@ -173,7 +173,7 @@ let dTreeSeeder = {
 
                 const spouseId = marriedCouple[1];
                 if (spouseId !== undefined) {
-                    marriage.spouse = new TreeNode(this._getWithParentIds(data, spouseId), options);
+                    marriage.spouse = new TreeNode(_getWithParentIds(data, spouseId), options);
                 }
 
                 marriage.children = data.filter((member) => {
@@ -199,8 +199,8 @@ let dTreeSeeder = {
         });
 
         return treeNodes;
-    },
-    _coalesce: function (data: TreeNode[]): TreeNode[] {
+    }
+    function _coalesce(data: TreeNode[]): TreeNode[] {
         if (data.length === 0) {
             throw new Error("Data cannot be empty");
         }
@@ -221,18 +221,21 @@ let dTreeSeeder = {
             }
             count++;
 
-            if (count > this._generationLimit) {
-                throw new Error(`Data contains multiple roots or spans more than ${this._generationLimit} generations.`);
+            if (count > _generationLimit) {
+                throw new Error(`Data contains multiple roots or spans more than ${_generationLimit} generations.`);
             }
         }
         return data;
-    },
-    seed: function (data: Member[], targetId?: number, options?: SeederOptions): TreeNode[] {
-        const members = this._getRelatives(data, targetId);
-        const marriages = this._combineIntoMarriages(members, options);
-        const rootNode = this._coalesce(marriages);
+    }
+    export function seed(data: Member[], targetId?: number, options?: SeederOptions): TreeNode[] {
+        const members = _getRelatives(data, targetId);
+        const marriages = _combineIntoMarriages(members, options);
+        const rootNode = _coalesce(marriages);
         return rootNode;
     }
-};
-
-export default dTreeSeeder;
+    export const _private = {
+        _getRelatives,
+        _combineIntoMarriages,
+        _coalesce
+    };
+}
