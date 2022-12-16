@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="/LICENSE">
-    <img alt="GitHub" src="https://img.shields.io/github/license/jmheartley/dtree-seeder">
+    <img alt="GitHub" src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
   </a>
   <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/jmheartley/dtree-seeder">
   <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/jmheartley/dtree-seeder">
@@ -16,13 +16,13 @@
 </p>
       
 <p align="center">
-  <a href="#about">About</a> •
-  <a href="#installation">Installation</a> •
-  <a href="#requirements">Requirements</a> •
-  <a href="#usage">Usage</a> •
-  <a href="#technologies-used">Technologies Used</a> •
-  <a href="#acknowledgements">Acknowledgements</a> •
-  <a href="#license">License</a>
+  <a href="#ℹ%EF%B8%8F-about">About</a> •
+  <a href="#-installation">Installation</a> •
+  <a href="#-requirements">Requirements</a> •
+  <a href="#-usage">Usage</a> •
+  <a href="#-technologies-used">Technologies Used</a> •
+  <a href="#%EF%B8%8F-acknowledgements">Acknowledgements</a> •
+  <a href="#-license">License</a>
 </p>
 
 ---
