@@ -149,7 +149,7 @@ will default to an empty string and `extra` to an empty object for each node.
 
 *See [SeederOptions](/blob/main/src/seederOptions.ts) for its Typescript interface.*
 
-#### 🎁 Examples
+#### 💡 Examples
 If your objects have an `ageInYears` property that cooresponds with a 
 CSS class named `minor` for people younger than 18, 
 you can conditionally set the CSS of the node using the `class` callback:
