@@ -14,8 +14,8 @@
   <a href="#-installation">Installation</a> •
   <a href="#-requirements">Requirements</a> •
   <a href="#-usage">Usage</a> •
-  <a href="#-technologies-used">Technologies Used</a> •
   <a href="#%EF%B8%8F-acknowledgements">Acknowledgements</a> •
+  <a href="#-technologies-used">Technologies Used</a> •
   <a href="#-license">License</a>
 </p>
 
@@ -89,7 +89,7 @@ Painlessly structure your data, with just one method call that:
 
 
 ## 📦 Installation
-Download the compiled file `dSeeder.js` from [dist](/tree/main/dist) to your appropriate project folder and load using `<script src=/path/dSeeder.js"></script>` which then globally exposes the `dSeeder` variable.
+Download the compiled file `dSeeder.js` from [dist](/dist) to your appropriate project folder and load using `<script src=/path/dSeeder.js"></script>` which then globally exposes the `dSeeder` variable.
 
 
 
@@ -122,7 +122,7 @@ The `data` object should be an array of objects with at least these properties:
 **Note**: if `parent1Id` or `parent2Id` references an `id`, but no object in `data` 
 contains that `id`, an error will be thrown. In such cases, please set that property to `null`.
 
-*See [Member](/blob/main/src/member.ts) for the Typescript interface for objects in data.*
+*See [Member](/src/member.ts) for the Typescript interface for objects in data.*
 
 
 
@@ -133,7 +133,7 @@ The `targetId` is the `id` of the object you wish to build your tree around.
 
 ### 🤔 Options
 Add [callbacks](https://www.freecodecamp.org/news/what-is-a-callback-function-in-javascript/) 
-to the `options` object to dyanmically set the `class`, `textClass`, and `extra` 
+to the `options` object to dyanmically set the corresponding `class`, `textClass`, and `extra` 
 properties for each node.
 
 Each callback takes a `member` object, which is an object in your data.
@@ -147,7 +147,7 @@ Each callback takes a `member` object, which is an object in your data.
 `options` is an optional parameter, when no callbacks are used, `class` and ` textClass` 
 will default to an empty string and `extra` to an empty object for each node.
 
-*See [SeederOptions](/blob/main/src/seederOptions.ts) for its Typescript interface.*
+*See [SeederOptions](/src/seederOptions.ts) for its Typescript interface.*
 
 #### 💡 Examples
 If your objects have an `ageInYears` property that cooresponds with a 
@@ -186,7 +186,7 @@ you can pass them into an object using `extra` callback:
 These properties would thenn be accessible through the `extra` property on each `node` in 
 the tree like `node.extra.height`, `node.extra.ageInYears`, or `node.extra.favoriteColor`.
 
-*For more examples on how to use the options object, check out [its unit tests](/blob/main/src/tests/seederTest.ts#L782).*
+*For more examples on how to use the options object, check out [its unit tests](/src/tests/seederTest.ts#L782).*
 
 
 
