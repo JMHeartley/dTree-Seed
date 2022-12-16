@@ -1,20 +1,14 @@
 <h1 align="center">
-  <br>
-  dTree-Seeder
+  🌳 dTree-Seeder 🌰
 </h1>
 
-<h4 align="center">A library for converting a list of objects into a hierarchical data structure for dTree.</h4>
-
 <p align="center">
-  <a href="/LICENSE">
-    <img alt="GitHub" src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
-  </a>
-  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/jmheartley/dtree-seeder">
-  <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/jmheartley/dtree-seeder">
-  <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/jmheartley/dtree-seeder">
-  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/jmheartley/dtree-seeder">
+  <i>
+    A library for converting a list of objects into a hierarchical data structure for 
+    <a href="https://github.com/ErikGartner/dTree">dTree.</a>
+  </i>
 </p>
-      
+
 <p align="center">
   <a href="#ℹ%EF%B8%8F-about">About</a> •
   <a href="#-installation">Installation</a> •
@@ -25,12 +19,18 @@
   <a href="#-license">License</a>
 </p>
 
----
-
-
+<p align="center">
+  <a href="/LICENSE">
+    <img alt="GitHub" src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
+  </a>
+  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/jmheartley/dtree-seeder">
+  <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/jmheartley/dtree-seeder">
+  <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/jmheartley/dtree-seeder">
+  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/jmheartley/dtree-seeder">
+</p>
 
 ## ℹ️ About
-Painlessly structure your data for [dTree](https://github.com/ErikGartner/dTree), with just one method call:
+Painlessly structure your data, with just one method call that:
 + Filters data for the following objects:
   + Target
   + Target's parents
