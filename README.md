@@ -108,7 +108,7 @@ dTree.init(seededData);   // command provided by dTree
 
 
 ### 💾 Data
-The `data` object should be an array of objects with at least these properties:
+The `data` object should be an array of objects, each of which should have these properties:
 ```javascript
 [{
         id: number;
