@@ -35,9 +35,9 @@ Painlessly structure your data, with just one method call that:
   + Target
   + Target's parents
   + Target's siblings (that share both parents)
-  + Target's children (where target's id is listed in parentId)
-  + Target's spouses (where listed as other parent of children)
-  + Target's descendents (grandchildren, children's spouses, great grandchildren, etc.)
+  + Target's children (where target is listed a parent)
+  + Target's spouses (where listed as other parent of a child)
+  + Target's descendents (grandchildren, children's spouses, great-grandchildren, etc.)
 + Returns a hierarchical data structure, formatted as specified by dTree's README
 + Enables you to dynamically set CSS classes and custom render data for each node
 
