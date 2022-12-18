@@ -183,8 +183,8 @@ you can pass them into an object using `extra` callback:
   }
 }
 ```
-These properties would thenn be accessible through the `extra` property on each `node` in 
-the tree like `node.extra.height`, `node.extra.ageInYears`, or `node.extra.favoriteColor`.
+The `extra` object is passed to [dTree's callbacks](https://github.com/ErikGartner/dTree#callbacks)
+, the above properties would accessbile on the `extra` parameter using `extra.height`, `extra.ageInYears`, and `extra.favoriteColor`.
 
 *For more examples on how to use the options object, check out [its unit tests](/src/tests/seederTest.ts#L782).*
 
