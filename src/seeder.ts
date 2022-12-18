@@ -227,7 +227,7 @@ namespace dSeeder {
         }
         return data;
     }
-    export function seed(data: Member[], targetId?: number, options?: SeederOptions): TreeNode[] {
+    export function seed(data: Member[], targetId: number, options?: SeederOptions): TreeNode[] {
         const members = _getRelatives(data, targetId);
         const marriages = _combineIntoMarriages(members, options);
         const rootNode = _coalesce(marriages);

@@ -649,11 +649,7 @@ describe('_private._coalesce', () => {
 describe('seed', () => {
     it('gets empty array, should throw error', () => {
         // Assert
-        assert.throws(() => dSeeder.seed([]));
-    })
-    it('gets no targetId, should throw error', () => {
-        // Assert
-        assert.throws(() => dSeeder.seed([MockMembers.AryaStark]));
+        assert.throws(() => dSeeder.seed([], 0));
     })
     it('gets dTree sample data, should return valid tree in JSON format', () => {
         // Act
