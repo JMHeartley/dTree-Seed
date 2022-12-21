@@ -21,25 +21,27 @@
 
 <p align="center">
   <a href="/LICENSE">
-    <img alt="GitHub" src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License">
+    <img alt="GitHub" src="https://img.shields.io/github/license/jmheartley/dtree-seeder?color=red" alt="MIT License">
   </a>
-  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/jmheartley/dtree-seeder">
-  <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/jmheartley/dtree-seeder">
-  <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/jmheartley/dtree-seeder">
+  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/jmheartley/dtree-seeder?color=orange">
+  <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/jmheartley/dtree-seeder?color=yellow">
+  <img alt="Lines of code" src="https://img.shields.io/badge/total%20lines-4.4k-brightgreen">
   <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/jmheartley/dtree-seeder">
 </p>
 
+
+
 ## ℹ️ About
-Painlessly structure your data, with just one method call that:
-+ Filters data for the following objects:
+Structuring data for dTree is hard... but not anymore! Painlessly, with just one method call, you can:
++ Filter data for the following objects:
   + Target
   + Target's parents
   + Target's siblings (that share both parents)
   + Target's children (where target is listed a parent)
   + Target's spouses (where listed as other parent of a child)
   + Target's descendents (grandchildren, children's spouses, great-grandchildren, etc.)
-+ Returns a hierarchical data structure, formatted as specified by dTree's README
-+ Enables you to dynamically set CSS classes and custom render data for each node
++ Dynamically set CSS classes and custom render data for each node
++ Return a hierarchical data structure, [formatted as specified by dTree's README](https://github.com/ErikGartner/dTree#usage)
 
 **Before**
 ```javascript
