@@ -3,14 +3,14 @@ var dSeeder;
 (function (dSeeder) {
     class TreeNode {
         constructor(member, options) {
-            var _a, _b, _c, _d, _e, _f, _g;
+            var _a, _b, _c, _d, _e, _f, _g, _h;
             this.id = member.id;
-            this.name = member.name;
-            this.class = (_b = (_a = options === null || options === void 0 ? void 0 : options.class) === null || _a === void 0 ? void 0 : _a.call(options, member)) !== null && _b !== void 0 ? _b : "";
-            this.textClass = (_d = (_c = options === null || options === void 0 ? void 0 : options.textClass) === null || _c === void 0 ? void 0 : _c.call(options, member)) !== null && _d !== void 0 ? _d : "";
-            this.depthOffset = (_e = member.depthOffset) !== null && _e !== void 0 ? _e : -1;
+            this.name = (_a = member === null || member === void 0 ? void 0 : member.name) !== null && _a !== void 0 ? _a : "";
+            this.class = (_c = (_b = options === null || options === void 0 ? void 0 : options.class) === null || _b === void 0 ? void 0 : _b.call(options, member)) !== null && _c !== void 0 ? _c : "";
+            this.textClass = (_e = (_d = options === null || options === void 0 ? void 0 : options.textClass) === null || _d === void 0 ? void 0 : _d.call(options, member)) !== null && _e !== void 0 ? _e : "";
+            this.depthOffset = (_f = member.depthOffset) !== null && _f !== void 0 ? _f : -1;
             this.marriages = new Array();
-            this.extra = (_g = (_f = options === null || options === void 0 ? void 0 : options.extra) === null || _f === void 0 ? void 0 : _f.call(options, member)) !== null && _g !== void 0 ? _g : {};
+            this.extra = (_h = (_g = options === null || options === void 0 ? void 0 : options.extra) === null || _g === void 0 ? void 0 : _g.call(options, member)) !== null && _h !== void 0 ? _h : {};
         }
         canInsertAsDescendant(descendent) {
             var _a;
