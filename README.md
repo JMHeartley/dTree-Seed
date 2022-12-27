@@ -27,6 +27,7 @@
   <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/jmheartley/dtree-seeder?color=yellow">
   <img alt="Lines of code" src="https://img.shields.io/badge/total%20lines-4.4k-brightgreen">
   <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/jmheartley/dtree-seeder">
+  <img alt="NPM version" src="https://img.shields.io/npm/v/dtree-seeder?color=blueviolet">
 </p>
 
 
@@ -91,7 +92,19 @@ Structuring data for dTree is hard... but not anymore! Painlessly, with just one
 
 
 ## 📦 Installation
-Download the compiled file `dSeeder.js` from [dist](/dist) to your appropriate project folder and load using `<script src=/path/dSeeder.js"></script>` which then globally exposes the `dSeeder` variable.
+There are a few ways to start working with dTree-Seeder, all of which globally expose the `dSeeder` variable:
+1. Manually download the compiled file `dSeeder.js` from [dist](/dist) to your appropriate project folder and load using a relative path:
+```html
+<script src=/path/to/dSeeder.js"></script>
+```
+2. Use `<script>` to reference the code through [jsDelivr's CDN](https://www.jsdelivr.com/package/npm/dtree-seeder):
+```html
+<script src="https://cdn.jsdelivr.net/npm/dtree-seeder@1.0.0/dist/dSeeder.min.js"></script>
+```
+3. Install as a package via npm with the following command:
+```bash
+npm install dtree-seeder
+```
 
 
 
