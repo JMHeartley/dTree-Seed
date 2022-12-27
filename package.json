@@ -1,4 +1,27 @@
 {
+  "name": "dtree-seeder",
+  "description": "A library for converting a list of objects into a hierarchical data structure for dTree.",
+  "version": "1.0.0",
+  "main": "dist/dSeeder.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JMHeartley/dTree-Seeder.git"
+  },
+  "keywords": [
+    "d3",
+    "genealogy",
+    "family-tree",
+    "hierarchical-data",
+    "dtree",
+    "visualizing-data-trees",
+    "data-massager"
+  ],
+  "author": "JMHeartley",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JMHeartley/dTree-Seeder/issues"
+  },
+  "homepage": "https://github.com/JMHeartley/dTree-Seeder#readme",
   "devDependencies": {
     "@types/chai": "^4.3.4",
     "@types/mocha": "^10.0.0",
