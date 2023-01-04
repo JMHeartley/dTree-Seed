@@ -95,7 +95,7 @@ Structuring data for dTree is hard... but not anymore! Painlessly, with just one
 There are a few ways to start working with dTree-Seeder, all of which globally expose the `dSeeder` variable:
 1. Manually download the compiled file `dSeeder.js` from [dist](/dist) to your appropriate project folder and load using a relative path:
 ```html
-<script src=/path/to/dSeeder.js"></script>
+<script src="/path/to/dSeeder.js"></script>
 ```
 2. Use `<script>` to reference the code through [jsDelivr's CDN](https://www.jsdelivr.com/package/npm/dtree-seeder):
 ```html
