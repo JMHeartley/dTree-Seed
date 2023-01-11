@@ -164,7 +164,10 @@ will default to an empty string and `extra` to an empty object for each node.
 
 *See [SeederOptions](/src/seederOptions.ts) for its Typescript interface.*
 
-#### 💡 Examples
+<details>
+<summary>💡 Examples</summary>
+
+#### class
 If your objects have an `ageInYears` property that cooresponds with a 
 CSS class named `minor` for people younger than 18, 
 you can conditionally set the CSS of the node using the `class` callback:
@@ -177,6 +180,7 @@ you can conditionally set the CSS of the node using the `class` callback:
 }
 ```
 
+#### textClass
 If you want to set the same CSS class `fw-bold` for all node text, 
 return a static value using the `textClass` callback:
 ```javascript
@@ -185,6 +189,7 @@ return a static value using the `textClass` callback:
 }
 ```
 
+#### extra
 If you have properties on each `member` you want to persist on each node in the tree,
 you can pass them into an object using `extra` callback:
 ```javascript
@@ -202,6 +207,7 @@ The `extra` object is passed to [dTree's callbacks](https://github.com/ErikGartn
 , the above properties would accessbile on the `extra` parameter using `extra.height`, `extra.ageInYears`, and `extra.favoriteColor`.
 
 *For more examples on how to use the options object, check out [its unit tests](/src/tests/seederTest.ts#L782).*
+</details>
 
 
 
