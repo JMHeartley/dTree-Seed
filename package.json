@@ -1,5 +1,5 @@
 {
-  "name": "dtree-seeder",
+  "name": "dtree-seed",
   "description": "A library for converting a list of objects into a hierarchical data structure for dTree.",
   "version": "1.0.0",
   "main": "dist/dSeeder.js",

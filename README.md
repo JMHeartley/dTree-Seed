@@ -1,5 +1,5 @@
 <h1 align="center">
-  🌳 dTree-Seeder 🌰
+  🌳 dTree-Seed 🌰
 </h1>
 
 <p align="center">
@@ -21,13 +21,13 @@
 
 <p align="center">
   <a href="/LICENSE">
-    <img alt="GitHub" src="https://img.shields.io/github/license/jmheartley/dtree-seeder?color=red" alt="MIT License">
+    <img alt="GitHub" src="https://img.shields.io/github/license/jmheartley/dtree-seed?color=red" alt="MIT License">
   </a>
-  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/jmheartley/dtree-seeder?color=orange">
-  <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/jmheartley/dtree-seeder?color=yellow">
+  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/jmheartley/dtree-seed?color=orange">
+  <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/jmheartley/dtree-seed?color=yellow">
   <img alt="Lines of code" src="https://img.shields.io/badge/total%20lines-4.4k-brightgreen">
-  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/jmheartley/dtree-seeder">
-  <img alt="NPM version" src="https://img.shields.io/npm/v/dtree-seeder?color=blueviolet">
+  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/jmheartley/dtree-seed">
+  <img alt="NPM version" src="https://img.shields.io/npm/v/dtree-seed?color=blueviolet">
 </p>
 
 
@@ -92,24 +92,24 @@ Structuring data for dTree is hard... but not anymore! Painlessly, with just one
 
 
 ## 📦 Installation
-There are a few ways to start working with dTree-Seeder, all of which globally expose the `dSeeder` variable:
+There are a few ways to start working with dTree-Seed, all of which globally expose the `dSeeder` variable:
 1. Manually download the compiled file `dSeeder.js` from [dist](/dist) to your appropriate project folder and load using a relative path:
 ```html
 <script src="/path/to/dSeeder.js"></script>
 ```
-2. Use `<script>` to reference the code through [jsDelivr's CDN](https://www.jsdelivr.com/package/npm/dtree-seeder):
+2. Use `<script>` to reference the code through [jsDelivr's CDN](https://www.jsdelivr.com/package/npm/dtree-seed):
 ```html
-<script src="https://cdn.jsdelivr.net/npm/dtree-seeder@1.0.0/dist/dSeeder.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dtree-seed@1.0.0/dist/dSeeder.min.js"></script>
 ```
 3. Install as a package via npm with the following command:
 ```bash
-npm install dtree-seeder
+npm install dtree-seed
 ```
 
 
 
 ## ⛽ Requirements
-dTree-Seeder has no dependencies, but is intended for use with [dTree](https://github.com/ErikGartner/dTree) v2.4.1.
+dTree-Seed has no dependencies, but is intended for use with [dTree](https://github.com/ErikGartner/dTree) v2.4.1.
 
 
 
