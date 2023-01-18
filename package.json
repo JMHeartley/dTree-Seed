@@ -5,7 +5,7 @@
   "main": "dist/dSeeder.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JMHeartley/dTree-Seeder.git"
+    "url": "git+https://github.com/JMHeartley/dTree-Seed.git"
   },
   "keywords": [
     "d3",
@@ -19,9 +19,9 @@
   "author": "JMHeartley",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/JMHeartley/dTree-Seeder/issues"
+    "url": "https://github.com/JMHeartley/dTree-Seed/issues"
   },
-  "homepage": "https://github.com/JMHeartley/dTree-Seeder#readme",
+  "homepage": "https://github.com/JMHeartley/dTree-Seed#readme",
   "devDependencies": {
     "@types/chai": "^4.3.4",
     "@types/mocha": "^10.0.0",
