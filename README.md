@@ -69,24 +69,26 @@ Structuring data for dTree is hard... but not anymore! Painlessly, with just one
 ```
 **After**
 ```javascript
-[{
-  "id": 0,
-  "name": "Father",
-  "depthOffset": 1,
-  "marriages": [{
-    "spouse": {
-      "id": 1,
-      "name": "Mother",
-      "depthOffset": 1
-    },
-    "children": [{
-      "id": 2,
-      "name": "Child",
-      "depthOffset": 2
-    }]
-  }],
-  "extra": {}
-}]
+[
+  {
+    "id": 0,
+    "name": "Father",
+    "depthOffset": 1,
+    "marriages": [{
+      "spouse": {
+        "id": 1,
+        "name": "Mother",
+        "depthOffset": 1
+      },
+      "children": [{
+        "id": 2,
+        "name": "Child",
+        "depthOffset": 2
+      }]
+    }],
+    "extra": {}
+  }
+]
 ```
 
 
@@ -126,9 +128,9 @@ dTree.init(seededData);   // command provided by dTree
 The `data` object should be an array of objects, each of which should have these properties:
 ```javascript
 [{
-        id: number;
-        parent1Id: number (or null for no value);
-        parent2Id: number (or null for no value);
+        id: number,
+        parent1Id: number, // use null for no value
+        parent2Id: number  // use null for no value
 }]
 ```
 
