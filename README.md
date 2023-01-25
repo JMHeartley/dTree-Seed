@@ -103,7 +103,7 @@ There are a few ways to start working with dTree-Seed, all of which globally exp
 ```html
 <script src="https://cdn.jsdelivr.net/npm/dtree-seed@1.0.0/dist/dSeeder.min.js"></script>
 ```
-3. Install as a package via npm with the following command:
+3. Install as a [package via npm](https://www.npmjs.com/package/dtree-seed) with the following command:
 ```bash
 npm install dtree-seed
 ```
