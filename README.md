@@ -220,6 +220,37 @@ you can pass them into an object using `extra` callback:
 The `extra` object is passed to [dTree's callbacks](https://github.com/ErikGartner/dTree#callbacks)
 , the above properties would accessbile on the `extra` parameter using `extra.height`, `extra.ageInYears`, and `extra.favoriteColor`.
 
+For the above examples, here's what the `data` might look like:
+```javascript
+[{
+        id: 0,
+        parent1Id: null,
+        parent2Id: null,
+        name: "Father",
+        ageInYears: 26,
+        height: "5ft 9in"
+        favoriteColor: "Green"
+},
+{
+        id: 1,
+        parent1Id: null,
+        parent2Id: null,
+        name: "Mother",
+        ageInYears: 24,
+        height: "5ft 6in",
+        favoriteColor: "Blue"
+},
+{
+        id: 2,
+        parent1Id: 0,
+        parent2Id: 1,
+        name: "Child",
+        ageInYears: 1,
+        height: "2ft 5in",
+        favoriteColor: null
+}];
+```
+
 *For more examples on how to use the options object, check out [its unit tests](/src/tests/seederTest.ts#L782).*
 </details>
 
