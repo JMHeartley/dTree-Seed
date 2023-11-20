@@ -11,6 +11,7 @@
 
 <p align="center">
   <a href="#ℹ%EF%B8%8F-about">About</a> •
+  <a href="#-demo">Demo</a> •
   <a href="#-installation">Installation</a> •
   <a href="#-requirements">Requirements</a> •
   <a href="#-usage">Usage</a> •
@@ -90,6 +91,11 @@ Structuring data for dTree is hard... but not anymore! Painlessly, with just one
   }
 ]
 ```
+
+
+
+## 🚗 Demo
+Check out how dTree-Seed can be used to recreate the dTree sample on [JSFiddle](https://jsfiddle.net/heartleyjm/zw1ukt60/25/).
 
 
 
