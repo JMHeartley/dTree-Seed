@@ -141,6 +141,7 @@ The `data` object should be an `array` of `object`s, each of which should have *
 ```javascript
 [{
         id: number,
+        name: "Hugh Mann", // optional, but recommended
         parent1Id: number, // use null for no value
         parent2Id: number  // use null for no value
 }]
