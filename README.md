@@ -145,9 +145,6 @@ The `data` object should be an `array` of `object`s, each of which should have *
         parent2Id: number  // use null for no value
 }]
 ```
-
-
-
 **Note**: if `parent1Id` or `parent2Id` references an `id`, but no object in `data` 
 contains that `id`, an error will be thrown. In such cases, please set that property to `null`.
 
