@@ -117,8 +117,14 @@ npm install dtree-seed
 
 
 ## ⛽ Requirements
-dTree-Seed has no dependencies, but is intended for use with [dTree](https://github.com/ErikGartner/dTree) v2.4.1.
-
+dTree-Seed has no dependencies itself as it's just a data processor. However, it's intended for use with [dTree](https://github.com/ErikGartner/dTree) v2.4.1, which requires the following:
+```html
+<!-- required for dTree -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+<!-- load dTree -->
+<script src="https://cdn.jsdelivr.net/npm/d3-dtree@2.4.1/dist/dTree.min.js"></script>
+```
 
 
 ## 🚘 Usage
