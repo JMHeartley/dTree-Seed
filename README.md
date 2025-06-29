@@ -29,7 +29,7 @@
   <img alt="Lines of code" src="https://img.shields.io/badge/total%20lines-4.4k-brightgreen">
   <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/jmheartley/dtree-seed">
    <a href="https://www.jsdelivr.com/package/npm/dTree-Seed">
-    <img src="https://data.jsdelivr.com/v1/package/npm/dTree-Seed/badge?color=indigo" alt="JSDelivr Downloads"> 
+    <img alt="JSDelivr Downloads" src="https://img.shields.io/jsdelivr/npm/hm/dTree-Seed?color=%238a2be2"> 
   </a>
   <img alt="NPM version" src="https://img.shields.io/npm/v/dtree-seed?color=blueviolet">
 </p>
