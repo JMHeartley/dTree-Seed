@@ -31,7 +31,7 @@
    <a href="https://www.jsdelivr.com/package/npm/dTree-Seed">
     <img alt="JSDelivr Downloads" src="https://img.shields.io/jsdelivr/npm/hm/dTree-Seed?color=%238a2be2"> 
   </a>
-  <img alt="NPM version" src="https://img.shields.io/npm/v/dtree-seed?color=blueviolet">
+  <img alt="NPM version" src="https://img.shields.io/npm/v/dtree-seed?color=white">
 </p>
 
 
